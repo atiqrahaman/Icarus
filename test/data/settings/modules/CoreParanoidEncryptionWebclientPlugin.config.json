@@ -1,0 +1,14 @@
+{
+	"Disabled": [
+		false,
+		"bool"
+	],
+    "AvailableFor": [
+		["FilesWebclient"],
+		"array"
+	],
+	"EnabledByDefault": [
+		false,
+		"bool"
+	]
+}

@@ -1,0 +1,46 @@
+{
+	"Disabled": [
+		false,
+		"bool"
+	],
+    "RegisterModuleName": [
+		"StandardRegisterFormWebclient",
+		"string"
+	],
+	"LoginModuleName": [
+		"StandardLoginFormWebclient",
+		"string"
+	],
+	"EnableSendInvitationLinkViaMail": [
+		true,
+		"bool"
+	],
+	"NotificationType": [
+		"mail",
+		"string"
+	],
+	"NotificationEmail": [
+		"mail@localhost",
+		"string"
+	],
+	"NotificationHost": [
+		"localhost",
+		"string"
+	],
+	"NotificationPort": [
+		"25",
+		"string"
+	],
+	"NotificationUseAuth": [
+		false,
+		"bool"
+	],
+	"NotificationLogin": [
+		"",
+		"string"
+	],
+	"NotificationPassword": [
+		"",
+		"string"
+	]
+}

@@ -1,0 +1,38 @@
+<div class="panel_top">
+	<h2 class="settings_heading" data-bind="i18n: {'key': '%MODULENAME%/USER_SETTINGS_TAB_HEADING'}"></h2>
+</div>
+<div class="panel_center">
+	<div class="fields">
+		<div class="fieldset" data-bind="visible: visibleCreateForm">
+			<h2 class="subheading" data-bind="text: createAccountHeading"></h2>
+			<div class="row">
+				<span class="label" data-bind="i18n: {'key': 'COREWEBCLIENT/LABEL_LOGIN'}"></span>
+				<span class="value">
+					<input class="input disabled" type="text" data-bind="value: login, hasFocus: loginFocus, enable: false, valueUpdate: 'afterkeydown', onEnter: saveAccount" />
+				</span>
+			</div>
+			<div class="row">
+				<span class="label" data-bind="i18n: {'key': 'COREWEBCLIENT/LABEL_PASSWORD'}"></span>
+				<span class="value">
+					<input class="input" type="password" data-bind="value: pass, hasFocus: passFocus, valueUpdate: 'afterkeydown', onEnter: saveAccount" />
+				</span>
+			</div>
+			<div class="row">
+				<span class="label" data-bind="i18n: {'key': 'COREWEBCLIENT/LABEL_CONFIRM_PASSWORD'}"></span>
+				<span class="value">
+					<input class="input" type="password" data-bind="value: confirmPass, hasFocus: confirmPassFocus, valueUpdate: 'afterkeydown', onEnter: saveAccount" />
+				</span>
+			</div>
+			{%INCLUDE-START/Edit-Standard-Account-After/INCLUDE-END%}
+		</div>
+
+		<div class="buttons" data-bind="visible: visibleCreateForm">
+			<span class="button" data-bind="click: saveAccount, visible: !isCreating()">
+				<span data-bind="text: updateButtonText"></span>
+			</span>
+			<span class="button" data-bind="visible: isCreating()">
+				<span data-bind="text: updateProgressButtonText"></span>
+			</span>
+		</div>
+	</div>
+</div>

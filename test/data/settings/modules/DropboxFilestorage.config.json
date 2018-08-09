@@ -1,0 +1,10 @@
+{
+    "Disabled": [
+        true,
+        "bool"
+    ],
+    "Scopes": [
+        "storage",
+        "string"
+    ]
+}

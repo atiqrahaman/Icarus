@@ -1,0 +1,15 @@
+<div class="popup" style="display: none;">
+	<div class="mask" data-bind="click: cancelPopup"></div>
+	<div class="popup_panel">
+		<span class="close" data-bind="click: cancelPopup"></span>
+		<div class="fields">
+			<div class="hint" data-bind="i18n: {'key': '%MODULENAME%/CONFIRM_DELETE_KEY'}"></div>
+			<div class="buttons">
+				<a class="button" data-bind="i18n: {'key': '%MODULENAME%/ACTION_EXPORT_KEY'}, attr: {'href': downloadLink, 'download': keyName() + '.txt'}"></a>
+				<span class="button" data-bind="i18n: {'key': 'COREWEBCLIENT/ACTION_DELETE'}, click: deleteKey"></span>
+				<span class="button secondary_button" data-bind="i18n: {'key': 'COREWEBCLIENT/ACTION_CLOSE'}, click: cancelPopup"></span>
+			</div>
+		</div>
+	</div>
+	<span class="helper"></span>
+</div>

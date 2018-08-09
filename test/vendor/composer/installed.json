@@ -1,0 +1,2722 @@
+[
+    {
+        "name": "afterlogic/aurora-dev-tools",
+        "version": "0.8.1",
+        "version_normalized": "0.8.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-dev-tools",
+            "reference": "tags/0.8.1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-dev-tools/archive/0.8.1.zip",
+            "reference": "tags/0.8.1",
+            "shasum": null
+        },
+        "require": {
+            "php": ">=5.4.0",
+            "squizlabs/php_codesniffer": "^2.0",
+            "wimg/php-compatibility": "*"
+        },
+        "time": "2018-03-29T13:25:50+00:00",
+        "type": "aurora-dev-tools",
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-framework",
+        "version": "0.8.7",
+        "version_normalized": "0.8.7.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-framework",
+            "reference": "tags/0.8.7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-framework/archive/0.8.7.zip",
+            "reference": "tags/0.8.7",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/mailso": "^1.4",
+            "masterexploder/phpthumb": "^2.1",
+            "symfony/filesystem": "^2.8"
+        },
+        "time": "2018-03-26T11:45:10+00:00",
+        "type": "aurora-framework",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "/",
+                "Installer.php"
+            ]
+        }
+    },
+    {
+        "name": "afterlogic/aurora-module-admin-auth",
+        "version": "0.8.0",
+        "version_normalized": "0.8.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-admin-auth",
+            "reference": "tags/0.8.0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-admin-auth/archive/0.8.0.zip",
+            "reference": "tags/0.8.0",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-02-22T15:12:12+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "AdminAuth"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-contacts",
+        "version": "0.8.9",
+        "version_normalized": "0.8.9.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-contacts",
+            "reference": "tags/0.8.9"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-contacts/archive/0.8.9.zip",
+            "reference": "tags/0.8.9",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "php": ">=5.4.0",
+            "sabre/dav": "3.1.*"
+        },
+        "time": "2018-04-05T12:38:50+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "Contacts"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-core",
+        "version": "0.8.3",
+        "version_normalized": "0.8.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-core",
+            "reference": "tags/0.8.3"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-core/archive/0.8.3.zip",
+            "reference": "tags/0.8.3",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-04-04T12:32:12+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "Core"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-corporatefiles",
+        "version": "0.8.0",
+        "version_normalized": "0.8.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-corporatefiles",
+            "reference": "tags/0.8.0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-corporatefiles/archive/0.8.0.zip",
+            "reference": "tags/0.8.0",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "afterlogic/aurora-module-files": "~0.8",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-03-01T15:14:32+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "CorporateFiles"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-dav",
+        "version": "0.8.0",
+        "version_normalized": "0.8.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-dav",
+            "reference": "tags/0.8.0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-dav/archive/0.8.0.zip",
+            "reference": "tags/0.8.0",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "afterlogic/dav": "^2.0.5",
+            "php": ">=5.4.0",
+            "sabre/dav": "3.1.*"
+        },
+        "time": "2018-02-27T10:11:23+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "Dav"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-dav-contacts",
+        "version": "0.8.1",
+        "version_normalized": "0.8.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-dav-contacts",
+            "reference": "tags/0.8.1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-dav-contacts/archive/0.8.1.zip",
+            "reference": "tags/0.8.1",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "afterlogic/aurora-module-dav": "~0.8",
+            "afterlogic/dav": "^2.0.5",
+            "php": ">=5.4.0",
+            "sabre/dav": "3.1.*"
+        },
+        "time": "2018-03-15T06:28:43+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "DavContacts"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-dropbox",
+        "version": "0.8.1",
+        "version_normalized": "0.8.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-dropbox",
+            "reference": "tags/0.8.1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-dropbox/archive/0.8.1.zip",
+            "reference": "tags/0.8.1",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "kunalvarma05/dropbox-php-sdk": "^0.2.1",
+            "php": ">=5.4.0",
+            "tightenco/collect": "5.5.32"
+        },
+        "time": "2018-02-26T11:11:18+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "Dropbox"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-dropbox-filestorage",
+        "version": "0.8.1",
+        "version_normalized": "0.8.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-dropbox-filestorage",
+            "reference": "tags/0.8.1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-dropbox-filestorage/archive/0.8.1.zip",
+            "reference": "tags/0.8.1",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "kunalvarma05/dropbox-php-sdk": "^0.2.1",
+            "php": ">=5.4.0",
+            "tightenco/collect": "5.5.32"
+        },
+        "time": "2018-03-22T09:26:04+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "DropboxFilestorage"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-eav-object-viewer",
+        "version": "0.8.2",
+        "version_normalized": "0.8.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-eav-object-viewer",
+            "reference": "tags/0.8.2"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-eav-object-viewer/archive/0.8.2.zip",
+            "reference": "tags/0.8.2",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-03-02T13:18:44+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "EavObjectViewer"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-facebook",
+        "version": "0.8.0",
+        "version_normalized": "0.8.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-facebook",
+            "reference": "tags/0.8.0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-facebook/archive/0.8.0.zip",
+            "reference": "tags/0.8.0",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-02-22T15:13:11+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "Facebook"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-files",
+        "version": "0.8.5",
+        "version_normalized": "0.8.5.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-files",
+            "reference": "tags/0.8.5"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-files/archive/0.8.5.zip",
+            "reference": "tags/0.8.5",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "afterlogic/aurora-module-dav": "~0.8",
+            "afterlogic/dav": "^2.0",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-04-04T12:33:36+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "Files"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-files-zipfolder",
+        "version": "0.8.1",
+        "version_normalized": "0.8.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-files-zipfolder",
+            "reference": "tags/0.8.1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-files-zipfolder/archive/0.8.1.zip",
+            "reference": "tags/0.8.1",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-03-22T11:30:52+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "FilesZipFolder"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-google",
+        "version": "0.8.0",
+        "version_normalized": "0.8.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-google",
+            "reference": "tags/0.8.0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-google/archive/0.8.0.zip",
+            "reference": "tags/0.8.0",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "google/apiclient": "1.1.7",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-02-26T06:35:00+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "Google"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-googledrive",
+        "version": "0.8.1",
+        "version_normalized": "0.8.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-googledrive",
+            "reference": "tags/0.8.1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-googledrive/archive/0.8.1.zip",
+            "reference": "tags/0.8.1",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "google/apiclient": "1.1.7",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-03-22T09:28:36+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "GoogleDrive"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-ios",
+        "version": "0.8.1",
+        "version_normalized": "0.8.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-ios",
+            "reference": "tags/0.8.1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-ios/archive/0.8.1.zip",
+            "reference": "tags/0.8.1",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "php": ">=5.4.0",
+            "sabre/dav": "3.1.*"
+        },
+        "time": "2018-03-31T05:56:23+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "Ios"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-min",
+        "version": "0.8.0",
+        "version_normalized": "0.8.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-min",
+            "reference": "tags/0.8.0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-min/archive/0.8.0.zip",
+            "reference": "tags/0.8.0",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-02-22T15:14:29+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "Min"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-mobile-sync",
+        "version": "0.8.0",
+        "version_normalized": "0.8.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-mobile-sync",
+            "reference": "tags/0.8.0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-mobile-sync/archive/0.8.0.zip",
+            "reference": "tags/0.8.0",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-02-27T10:25:14+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "MobileSync"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-oembed-files",
+        "version": "0.8.1",
+        "version_normalized": "0.8.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-oembed-files",
+            "reference": "tags/0.8.1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-oembed-files/archive/0.8.1.zip",
+            "reference": "tags/0.8.1",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-03-22T09:27:38+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "OEmbedFiles"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-personal-contacts",
+        "version": "0.8.2",
+        "version_normalized": "0.8.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-personal-contacts",
+            "reference": "tags/0.8.2"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-personal-contacts/archive/0.8.2.zip",
+            "reference": "tags/0.8.2",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "afterlogic/aurora-module-contacts": "~0.8",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-03-20T10:30:56+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "PersonalContacts"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-personalfiles",
+        "version": "0.8.6",
+        "version_normalized": "0.8.6.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-personalfiles",
+            "reference": "tags/0.8.6"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-personalfiles/archive/0.8.6.zip",
+            "reference": "tags/0.8.6",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "afterlogic/aurora-module-dav": "~0.8",
+            "afterlogic/aurora-module-files": "~0.8",
+            "afterlogic/dav": "^2.0",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-04-04T12:37:16+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "PersonalFiles"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-standard-auth",
+        "version": "0.8.1",
+        "version_normalized": "0.8.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-standard-auth",
+            "reference": "tags/0.8.1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-standard-auth/archive/0.8.1.zip",
+            "reference": "tags/0.8.1",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-03-02T13:21:55+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "StandardAuth"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-team-contacts",
+        "version": "0.8.1",
+        "version_normalized": "0.8.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-team-contacts",
+            "reference": "tags/0.8.1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-team-contacts/archive/0.8.1.zip",
+            "reference": "tags/0.8.1",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "afterlogic/aurora-module-contacts": "~0.8",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-03-20T10:31:37+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "TeamContacts"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-webclient-adminpanel",
+        "version": "0.8.1",
+        "version_normalized": "0.8.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-adminpanel",
+            "reference": "tags/0.8.1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-adminpanel/archive/0.8.1.zip",
+            "reference": "tags/0.8.1",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-04-02T12:28:47+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "AdminPanelWebclient"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-webclient-branding",
+        "version": "0.8.0",
+        "version_normalized": "0.8.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-branding",
+            "reference": "tags/0.8.0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-branding/archive/0.8.0.zip",
+            "reference": "tags/0.8.0",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-04-04T11:40:10+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "BrandingWebclient"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-webclient-contacts",
+        "version": "0.8.2",
+        "version_normalized": "0.8.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-contacts",
+            "reference": "tags/0.8.2"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-contacts/archive/0.8.2.zip",
+            "reference": "tags/0.8.2",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "afterlogic/aurora-module-contacts": "~0.8"
+        },
+        "time": "2018-03-20T10:30:25+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "ContactsWebclient"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-webclient-core",
+        "version": "0.8.8",
+        "version_normalized": "0.8.8.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-core",
+            "reference": "tags/0.8.8"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-core/archive/0.8.8.zip",
+            "reference": "tags/0.8.8",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-04-04T13:02:32+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "CoreWebclient"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-webclient-core-paranoid-encryption-plugin",
+        "version": "0.8.4",
+        "version_normalized": "0.8.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-core-jscrypto-plugin",
+            "reference": "tags/0.8.4"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-core-jscrypto-plugin/archive/0.8.4.zip",
+            "reference": "tags/0.8.4",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "afterlogic/aurora-module-files": "^0.8.0",
+            "afterlogic/aurora-module-webclient-files": "^0.8.0",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-03-21T11:17:02+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "CoreParanoidEncryptionWebclientPlugin"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-webclient-dropbox-auth",
+        "version": "0.8.1",
+        "version_normalized": "0.8.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-dropbox-auth",
+            "reference": "tags/0.8.1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-dropbox-auth/archive/0.8.1.zip",
+            "reference": "tags/0.8.1",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-02-27T13:56:49+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "DropboxAuthWebclient"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-webclient-external-clients-login-form",
+        "version": "0.8.0",
+        "version_normalized": "0.8.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-mobile-webclient-oauth-integrator",
+            "reference": "tags/0.8.0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-mobile-webclient-oauth-integrator/archive/0.8.0.zip",
+            "reference": "tags/0.8.0",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-02-27T10:21:07+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "ExternalClientsLoginFormWebclient"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-webclient-facebook-auth",
+        "version": "0.8.0",
+        "version_normalized": "0.8.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-facebook-auth",
+            "reference": "tags/0.8.0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-facebook-auth/archive/0.8.0.zip",
+            "reference": "tags/0.8.0",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-02-22T15:13:15+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "FacebookAuthWebclient"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-webclient-file-viewer-plugin",
+        "version": "0.8.3",
+        "version_normalized": "0.8.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-file-viewer-plugin",
+            "reference": "tags/0.8.3"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-file-viewer-plugin/archive/0.8.3.zip",
+            "reference": "tags/0.8.3",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-03-20T10:24:58+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "FileViewerWebclientPlugin"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-webclient-files",
+        "version": "0.8.4",
+        "version_normalized": "0.8.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-files",
+            "reference": "tags/0.8.4"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-files/archive/0.8.4.zip",
+            "reference": "tags/0.8.4",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-04-04T12:34:07+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "FilesWebclient"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-webclient-files-cut-copy-paste-plugin",
+        "version": "0.8.1",
+        "version_normalized": "0.8.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-files-cut-copy-paste-plugin",
+            "reference": "tags/0.8.1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-files-cut-copy-paste-plugin/archive/0.8.1.zip",
+            "reference": "tags/0.8.1",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-03-02T13:52:53+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "FilesCutCopyPasteWebclientPlugin"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-webclient-files-tableview-plugin",
+        "version": "0.8.2",
+        "version_normalized": "0.8.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-files-tableview-plugin",
+            "reference": "tags/0.8.2"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-files-tableview-plugin/archive/0.8.2.zip",
+            "reference": "tags/0.8.2",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-03-05T08:43:35+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "FilesTableviewWebclientPlugin"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-webclient-google-auth",
+        "version": "0.8.0",
+        "version_normalized": "0.8.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-google-auth",
+            "reference": "tags/0.8.0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-google-auth/archive/0.8.0.zip",
+            "reference": "tags/0.8.0",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-02-22T15:13:25+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "GoogleAuthWebclient"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-webclient-invitation-link",
+        "version": "0.8.0",
+        "version_normalized": "0.8.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-invitation-link",
+            "reference": "tags/0.8.0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-invitation-link/archive/0.8.0.zip",
+            "reference": "tags/0.8.0",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "php": ">=5.4.0",
+            "phpmailer/phpmailer": "~5.2"
+        },
+        "time": "2018-02-27T10:22:02+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "InvitationLinkWebclient"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-webclient-logs-viewer",
+        "version": "0.8.0",
+        "version_normalized": "0.8.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-logs-viewer",
+            "reference": "tags/0.8.0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-logs-viewer/archive/0.8.0.zip",
+            "reference": "tags/0.8.0",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-02-22T15:13:30+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "LogsViewerWebclient"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-webclient-mobile-sync",
+        "version": "0.8.0",
+        "version_normalized": "0.8.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-mobile-sync",
+            "reference": "tags/0.8.0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-mobile-sync/archive/0.8.0.zip",
+            "reference": "tags/0.8.0",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8"
+        },
+        "time": "2018-02-27T10:26:19+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "MobileSyncWebclient"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-webclient-oauth-integrator",
+        "version": "0.8.2",
+        "version_normalized": "0.8.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-oauth-integrator",
+            "reference": "tags/0.8.2"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-oauth-integrator/archive/0.8.2.zip",
+            "reference": "tags/0.8.2",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-03-29T13:21:19+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "OAuthIntegratorWebclient"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-webclient-settings",
+        "version": "0.8.0",
+        "version_normalized": "0.8.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-settings",
+            "reference": "tags/0.8.0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-settings/archive/0.8.0.zip",
+            "reference": "tags/0.8.0",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-02-22T15:14:54+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "SettingsWebclient"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-webclient-standard-auth",
+        "version": "0.8.1",
+        "version_normalized": "0.8.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-standard-auth",
+            "reference": "tags/0.8.1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-standard-auth/archive/0.8.1.zip",
+            "reference": "tags/0.8.1",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8"
+        },
+        "time": "2018-03-29T16:14:28+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "StandardAuthWebclient"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-webclient-standard-login-form",
+        "version": "0.8.2",
+        "version_normalized": "0.8.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-standard-login-form",
+            "reference": "tags/0.8.2"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-standard-login-form/archive/0.8.2.zip",
+            "reference": "tags/0.8.2",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-03-27T15:20:36+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "StandardLoginFormWebclient"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/aurora-module-webclient-standard-register-form",
+        "version": "0.8.0",
+        "version_normalized": "0.8.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-standard-register-form",
+            "reference": "tags/0.8.0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/afterlogic/aurora-module-webclient-standard-register-form/archive/0.8.0.zip",
+            "reference": "tags/0.8.0",
+            "shasum": null
+        },
+        "require": {
+            "afterlogic/aurora-framework": "~0.8",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-02-22T15:15:09+00:00",
+        "type": "aurora-module",
+        "extra": {
+            "installer-name": "StandardRegisterFormWebclient"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "afterlogic/dav",
+        "version": "2.1.28",
+        "version_normalized": "2.1.28.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/dav.git",
+            "reference": "23b1ce60807aade2cacd43f12429636637e4e286"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/afterlogic/dav/zipball/23b1ce60807aade2cacd43f12429636637e4e286",
+            "reference": "23b1ce60807aade2cacd43f12429636637e4e286",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0",
+            "sabre/dav": ">=2.0.0"
+        },
+        "time": "2018-04-06T10:57:34+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Afterlogic\\DAV\\": "lib/DAV/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "authors": [
+            {
+                "name": "AfterLogic",
+                "email": "support@afterlogic.com",
+                "role": "Developer"
+            }
+        ],
+        "description": "Afterlogic DAV Server",
+        "homepage": "https://github.com/afterlogic/dav"
+    },
+    {
+        "name": "afterlogic/mailso",
+        "version": "1.5.8",
+        "version_normalized": "1.5.8.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/afterlogic/MailSo.git",
+            "reference": "9ae60241a1de1742b9018ee68ce5751a0d2b029f"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/afterlogic/MailSo/zipball/9ae60241a1de1742b9018ee68ce5751a0d2b029f",
+            "reference": "9ae60241a1de1742b9018ee68ce5751a0d2b029f",
+            "shasum": ""
+        },
+        "require": {
+            "pear/net_idna2": "^0.2.0",
+            "php": ">=5.3.0"
+        },
+        "time": "2018-03-25T05:41:03+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "MailSo\\": "lib/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "authors": [
+            {
+                "name": "AfterLogic",
+                "email": "support@afterlogic.com",
+                "role": "Developer"
+            }
+        ],
+        "description": "Afterlogic MailSo",
+        "homepage": "https://github.com/afterlogic/mailso"
+    },
+    {
+        "name": "composer/installers",
+        "version": "v1.5.0",
+        "version_normalized": "1.5.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/composer/installers.git",
+            "reference": "049797d727261bf27f2690430d935067710049c2"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/composer/installers/zipball/049797d727261bf27f2690430d935067710049c2",
+            "reference": "049797d727261bf27f2690430d935067710049c2",
+            "shasum": ""
+        },
+        "require": {
+            "composer-plugin-api": "^1.0"
+        },
+        "replace": {
+            "roundcube/plugin-installer": "*",
+            "shama/baton": "*"
+        },
+        "require-dev": {
+            "composer/composer": "1.0.*@dev",
+            "phpunit/phpunit": "^4.8.36"
+        },
+        "time": "2017-12-29T09:13:20+00:00",
+        "type": "composer-plugin",
+        "extra": {
+            "class": "Composer\\Installers\\Plugin",
+            "branch-alias": {
+                "dev-master": "1.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Composer\\Installers\\": "src/Composer/Installers"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Kyle Robinson Young",
+                "email": "kyle@dontkry.com",
+                "homepage": "https://github.com/shama"
+            }
+        ],
+        "description": "A multi-framework Composer library installer",
+        "homepage": "https://composer.github.io/installers/",
+        "keywords": [
+            "Craft",
+            "Dolibarr",
+            "Eliasis",
+            "Hurad",
+            "ImageCMS",
+            "Kanboard",
+            "Lan Management System",
+            "MODX Evo",
+            "Mautic",
+            "Maya",
+            "OXID",
+            "Plentymarkets",
+            "Porto",
+            "RadPHP",
+            "SMF",
+            "Thelia",
+            "WolfCMS",
+            "agl",
+            "aimeos",
+            "annotatecms",
+            "attogram",
+            "bitrix",
+            "cakephp",
+            "chef",
+            "cockpit",
+            "codeigniter",
+            "concrete5",
+            "croogo",
+            "dokuwiki",
+            "drupal",
+            "eZ Platform",
+            "elgg",
+            "expressionengine",
+            "fuelphp",
+            "grav",
+            "installer",
+            "itop",
+            "joomla",
+            "kohana",
+            "laravel",
+            "lavalite",
+            "lithium",
+            "magento",
+            "majima",
+            "mako",
+            "mediawiki",
+            "modulework",
+            "modx",
+            "moodle",
+            "osclass",
+            "phpbb",
+            "piwik",
+            "ppi",
+            "puppet",
+            "pxcms",
+            "reindex",
+            "roundcube",
+            "shopware",
+            "silverstripe",
+            "sydes",
+            "symfony",
+            "typo3",
+            "wordpress",
+            "yawik",
+            "zend",
+            "zikula"
+        ]
+    },
+    {
+        "name": "google/apiclient",
+        "version": "1.1.7",
+        "version_normalized": "1.1.7.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/google/google-api-php-client.git",
+            "reference": "400f250a30ae1dd4c4a0a4f750fe973fc70e6311"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/google/google-api-php-client/zipball/400f250a30ae1dd4c4a0a4f750fe973fc70e6311",
+            "reference": "400f250a30ae1dd4c4a0a4f750fe973fc70e6311",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.1"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "3.7.*",
+            "squizlabs/php_codesniffer": "~2.3"
+        },
+        "time": "2016-02-02T18:50:42+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.1.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "src/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "description": "Client library for Google APIs",
+        "homepage": "http://developers.google.com/api-client-library/php",
+        "keywords": [
+            "google"
+        ]
+    },
+    {
+        "name": "guzzlehttp/guzzle",
+        "version": "6.3.2",
+        "version_normalized": "6.3.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/guzzle/guzzle.git",
+            "reference": "68d0ea14d5a3f42a20e87632a5f84931e2709c90"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/guzzle/guzzle/zipball/68d0ea14d5a3f42a20e87632a5f84931e2709c90",
+            "reference": "68d0ea14d5a3f42a20e87632a5f84931e2709c90",
+            "shasum": ""
+        },
+        "require": {
+            "guzzlehttp/promises": "^1.0",
+            "guzzlehttp/psr7": "^1.4",
+            "php": ">=5.5"
+        },
+        "require-dev": {
+            "ext-curl": "*",
+            "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.4",
+            "psr/log": "^1.0"
+        },
+        "suggest": {
+            "psr/log": "Required for using the Log middleware"
+        },
+        "time": "2018-03-26T16:33:04+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "6.3-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "src/functions_include.php"
+            ],
+            "psr-4": {
+                "GuzzleHttp\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Michael Dowling",
+                "email": "mtdowling@gmail.com",
+                "homepage": "https://github.com/mtdowling"
+            }
+        ],
+        "description": "Guzzle is a PHP HTTP client library",
+        "homepage": "http://guzzlephp.org/",
+        "keywords": [
+            "client",
+            "curl",
+            "framework",
+            "http",
+            "http client",
+            "rest",
+            "web service"
+        ]
+    },
+    {
+        "name": "guzzlehttp/promises",
+        "version": "v1.3.1",
+        "version_normalized": "1.3.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/guzzle/promises.git",
+            "reference": "a59da6cf61d80060647ff4d3eb2c03a2bc694646"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/guzzle/promises/zipball/a59da6cf61d80060647ff4d3eb2c03a2bc694646",
+            "reference": "a59da6cf61d80060647ff4d3eb2c03a2bc694646",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.5.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^4.0"
+        },
+        "time": "2016-12-20T10:07:11+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.4-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "GuzzleHttp\\Promise\\": "src/"
+            },
+            "files": [
+                "src/functions_include.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Michael Dowling",
+                "email": "mtdowling@gmail.com",
+                "homepage": "https://github.com/mtdowling"
+            }
+        ],
+        "description": "Guzzle promises library",
+        "keywords": [
+            "promise"
+        ]
+    },
+    {
+        "name": "guzzlehttp/psr7",
+        "version": "1.4.2",
+        "version_normalized": "1.4.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/guzzle/psr7.git",
+            "reference": "f5b8a8512e2b58b0071a7280e39f14f72e05d87c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/guzzle/psr7/zipball/f5b8a8512e2b58b0071a7280e39f14f72e05d87c",
+            "reference": "f5b8a8512e2b58b0071a7280e39f14f72e05d87c",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4.0",
+            "psr/http-message": "~1.0"
+        },
+        "provide": {
+            "psr/http-message-implementation": "1.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.0"
+        },
+        "time": "2017-03-20T17:10:46+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.4-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "GuzzleHttp\\Psr7\\": "src/"
+            },
+            "files": [
+                "src/functions_include.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Michael Dowling",
+                "email": "mtdowling@gmail.com",
+                "homepage": "https://github.com/mtdowling"
+            },
+            {
+                "name": "Tobias Schultze",
+                "homepage": "https://github.com/Tobion"
+            }
+        ],
+        "description": "PSR-7 message implementation that also provides common utility methods",
+        "keywords": [
+            "http",
+            "message",
+            "request",
+            "response",
+            "stream",
+            "uri",
+            "url"
+        ]
+    },
+    {
+        "name": "kunalvarma05/dropbox-php-sdk",
+        "version": "v0.2.1",
+        "version_normalized": "0.2.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/kunalvarma05/dropbox-php-sdk.git",
+            "reference": "27036f20b7eeb59d5e559e03d4280851f6eb789b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/kunalvarma05/dropbox-php-sdk/zipball/27036f20b7eeb59d5e559e03d4280851f6eb789b",
+            "reference": "27036f20b7eeb59d5e559e03d4280851f6eb789b",
+            "shasum": ""
+        },
+        "require": {
+            "guzzlehttp/guzzle": "~6.0",
+            "tightenco/collect": "^5.2"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^6.0"
+        },
+        "time": "2017-06-26T09:37:16+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Kunnu\\Dropbox\\": "src/Dropbox"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Kunal Varma",
+                "email": "kunalvarma05@gmail.com"
+            }
+        ],
+        "description": "Dropbox PHP API V2 SDK (Unofficial)",
+        "keywords": [
+            "api",
+            "client",
+            "dropbox",
+            "php",
+            "sdk",
+            "unofficial"
+        ]
+    },
+    {
+        "name": "masterexploder/phpthumb",
+        "version": "2.1",
+        "version_normalized": "2.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/masterexploder/PHPThumb.git",
+            "reference": "01f6aa65aa3d136e175f67da2b4ea3e316770d02"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/masterexploder/PHPThumb/zipball/01f6aa65aa3d136e175f67da2b4ea3e316770d02",
+            "reference": "01f6aa65aa3d136e175f67da2b4ea3e316770d02",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2015-09-08T22:55:44+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "PHPThumb": "src",
+                "PHPThumb\\Tests": "tests"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jarrod Nettles",
+                "email": "jarrod.nettles@icloud.com"
+            },
+            {
+                "name": "Ian Selby",
+                "email": "ian@gxdlabs.com"
+            }
+        ],
+        "description": "A library for manipulating images in PHP.",
+        "homepage": "https://github.com/masterexploder/PHPThumb",
+        "keywords": [
+            "image",
+            "resize",
+            "rotate"
+        ]
+    },
+    {
+        "name": "oomphinc/composer-installers-extender",
+        "version": "v1.1.2",
+        "version_normalized": "1.1.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/oomphinc/composer-installers-extender.git",
+            "reference": "ca1c4b16b0905c81d1e77e608f36a2eff1a56f56"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/oomphinc/composer-installers-extender/zipball/ca1c4b16b0905c81d1e77e608f36a2eff1a56f56",
+            "reference": "ca1c4b16b0905c81d1e77e608f36a2eff1a56f56",
+            "shasum": ""
+        },
+        "require": {
+            "composer-plugin-api": "^1.0",
+            "composer/installers": "^1.0"
+        },
+        "time": "2017-03-31T16:57:39+00:00",
+        "type": "composer-plugin",
+        "extra": {
+            "class": "OomphInc\\ComposerInstallersExtender\\Plugin"
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "OomphInc\\ComposerInstallersExtender\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Stephen Beemsterboer",
+                "email": "stephen@oomphinc.com",
+                "homepage": "https://github.com/balbuf"
+            }
+        ],
+        "description": "Extend the composer/installers plugin to accept any arbitrary package type.",
+        "homepage": "http://www.oomphinc.com/"
+    },
+    {
+        "name": "pear/net_idna2",
+        "version": "v0.2.0",
+        "version_normalized": "0.2.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/pear/Net_IDNA2.git",
+            "reference": "51734eaf8be2df58e8aad5835b9966459b2fb37c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/pear/Net_IDNA2/zipball/51734eaf8be2df58e8aad5835b9966459b2fb37c",
+            "reference": "51734eaf8be2df58e8aad5835b9966459b2fb37c",
+            "shasum": ""
+        },
+        "require": {
+            "pear/pear_exception": "@stable"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^4"
+        },
+        "time": "2017-03-06T20:46:41+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Net": "./"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "include-path": [
+            "./"
+        ],
+        "license": [
+            "LGPL"
+        ],
+        "authors": [
+            {
+                "name": "Stefan Neufeind",
+                "email": "pear.neufeind@speedpartner.de",
+                "role": "Lead"
+            },
+            {
+                "name": "Daniel O'Connor",
+                "email": "daniel.oconnor@gmail.com",
+                "role": "Lead"
+            }
+        ],
+        "description": "More info available on: https://pear.php.net/package/Net_IDNA2"
+    },
+    {
+        "name": "pear/pear_exception",
+        "version": "v1.0.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/pear/PEAR_Exception.git",
+            "reference": "8c18719fdae000b690e3912be401c76e406dd13b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/pear/PEAR_Exception/zipball/8c18719fdae000b690e3912be401c76e406dd13b",
+            "reference": "8c18719fdae000b690e3912be401c76e406dd13b",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=4.4.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "*"
+        },
+        "time": "2015-02-10T20:07:52+00:00",
+        "type": "class",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "PEAR": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "include-path": [
+            "."
+        ],
+        "license": [
+            "BSD-2-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Helgi Thormar",
+                "email": "dufuz@php.net"
+            },
+            {
+                "name": "Greg Beaver",
+                "email": "cellog@php.net"
+            }
+        ],
+        "description": "The PEAR Exception base class.",
+        "homepage": "https://github.com/pear/PEAR_Exception",
+        "keywords": [
+            "exception"
+        ]
+    },
+    {
+        "name": "phpmailer/phpmailer",
+        "version": "v5.2.26",
+        "version_normalized": "5.2.26.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/PHPMailer/PHPMailer.git",
+            "reference": "70362997bda4376378be7d92d81e2200550923f7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/70362997bda4376378be7d92d81e2200550923f7",
+            "reference": "70362997bda4376378be7d92d81e2200550923f7",
+            "shasum": ""
+        },
+        "require": {
+            "ext-ctype": "*",
+            "php": ">=5.0.0"
+        },
+        "require-dev": {
+            "doctrine/annotations": "1.2.*",
+            "jms/serializer": "0.16.*",
+            "phpdocumentor/phpdocumentor": "2.*",
+            "phpunit/phpunit": "4.8.*",
+            "symfony/debug": "2.8.*",
+            "symfony/filesystem": "2.8.*",
+            "symfony/translation": "2.8.*",
+            "symfony/yaml": "2.8.*",
+            "zendframework/zend-cache": "2.5.1",
+            "zendframework/zend-config": "2.5.1",
+            "zendframework/zend-eventmanager": "2.5.1",
+            "zendframework/zend-filter": "2.5.1",
+            "zendframework/zend-i18n": "2.5.1",
+            "zendframework/zend-json": "2.5.1",
+            "zendframework/zend-math": "2.5.1",
+            "zendframework/zend-serializer": "2.5.*",
+            "zendframework/zend-servicemanager": "2.5.*",
+            "zendframework/zend-stdlib": "2.5.1"
+        },
+        "suggest": {
+            "league/oauth2-google": "Needed for Google XOAUTH2 authentication"
+        },
+        "time": "2017-11-04T09:26:05+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "class.phpmailer.php",
+                "class.phpmaileroauth.php",
+                "class.phpmaileroauthgoogle.php",
+                "class.smtp.php",
+                "class.pop3.php",
+                "extras/EasyPeasyICS.php",
+                "extras/ntlm_sasl_client.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-2.1"
+        ],
+        "authors": [
+            {
+                "name": "Jim Jagielski",
+                "email": "jimjag@gmail.com"
+            },
+            {
+                "name": "Marcus Bointon",
+                "email": "phpmailer@synchromedia.co.uk"
+            },
+            {
+                "name": "Andy Prevost",
+                "email": "codeworxtech@users.sourceforge.net"
+            },
+            {
+                "name": "Brent R. Matzelle"
+            }
+        ],
+        "description": "PHPMailer is a full-featured email creation and transfer class for PHP"
+    },
+    {
+        "name": "psr/http-message",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/php-fig/http-message.git",
+            "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/php-fig/http-message/zipball/f6561bf28d520154e4b0ec72be95418abe6d9363",
+            "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2016-08-06T14:39:51+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Psr\\Http\\Message\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "PHP-FIG",
+                "homepage": "http://www.php-fig.org/"
+            }
+        ],
+        "description": "Common interface for HTTP messages",
+        "homepage": "https://github.com/php-fig/http-message",
+        "keywords": [
+            "http",
+            "http-message",
+            "psr",
+            "psr-7",
+            "request",
+            "response"
+        ]
+    },
+    {
+        "name": "sabre/dav",
+        "version": "3.1.4",
+        "version_normalized": "3.1.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sabre-io/dav.git",
+            "reference": "e4098cb78375ef8680cfdebab82c273848117243"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/sabre-io/dav/zipball/e4098cb78375ef8680cfdebab82c273848117243",
+            "reference": "e4098cb78375ef8680cfdebab82c273848117243",
+            "shasum": ""
+        },
+        "require": {
+            "ext-ctype": "*",
+            "ext-date": "*",
+            "ext-dom": "*",
+            "ext-iconv": "*",
+            "ext-mbstring": "*",
+            "ext-pcre": "*",
+            "ext-simplexml": "*",
+            "ext-spl": "*",
+            "lib-libxml": ">=2.7.0",
+            "php": ">=5.5.0",
+            "sabre/event": ">=2.0.0, <4.0.0",
+            "sabre/http": "^4.2.1",
+            "sabre/uri": "~1.0",
+            "sabre/vobject": "~4.0",
+            "sabre/xml": "~1.0"
+        },
+        "require-dev": {
+            "evert/phpdoc-md": "~0.1.0",
+            "phpunit/phpunit": "> 4.8, <=6.0.0",
+            "sabre/cs": "~0.0.5"
+        },
+        "suggest": {
+            "ext-curl": "*",
+            "ext-pdo": "*"
+        },
+        "time": "2016-05-29T00:52:33+00:00",
+        "bin": [
+            "bin/sabredav",
+            "bin/naturalselection"
+        ],
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "3.1.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Sabre\\DAV\\": "lib/DAV/",
+                "Sabre\\DAVACL\\": "lib/DAVACL/",
+                "Sabre\\CalDAV\\": "lib/CalDAV/",
+                "Sabre\\CardDAV\\": "lib/CardDAV/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Evert Pot",
+                "email": "me@evertpot.com",
+                "homepage": "http://evertpot.com/",
+                "role": "Developer"
+            }
+        ],
+        "description": "WebDAV Framework for PHP",
+        "homepage": "http://sabre.io/",
+        "keywords": [
+            "CalDAV",
+            "CardDAV",
+            "WebDAV",
+            "framework",
+            "iCalendar"
+        ]
+    },
+    {
+        "name": "sabre/event",
+        "version": "3.0.0",
+        "version_normalized": "3.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sabre-io/event.git",
+            "reference": "831d586f5a442dceacdcf5e9c4c36a4db99a3534"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/sabre-io/event/zipball/831d586f5a442dceacdcf5e9c4c36a4db99a3534",
+            "reference": "831d586f5a442dceacdcf5e9c4c36a4db99a3534",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.5"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "*",
+            "sabre/cs": "~0.0.4"
+        },
+        "time": "2015-11-05T20:14:39+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Sabre\\Event\\": "lib/"
+            },
+            "files": [
+                "lib/coroutine.php",
+                "lib/Loop/functions.php",
+                "lib/Promise/functions.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Evert Pot",
+                "email": "me@evertpot.com",
+                "homepage": "http://evertpot.com/",
+                "role": "Developer"
+            }
+        ],
+        "description": "sabre/event is a library for lightweight event-based programming",
+        "homepage": "http://sabre.io/event/",
+        "keywords": [
+            "EventEmitter",
+            "async",
+            "events",
+            "hooks",
+            "plugin",
+            "promise",
+            "signal"
+        ]
+    },
+    {
+        "name": "sabre/http",
+        "version": "v4.2.4",
+        "version_normalized": "4.2.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sabre-io/http.git",
+            "reference": "acccec4ba863959b2d10c1fa0fb902736c5c8956"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/sabre-io/http/zipball/acccec4ba863959b2d10c1fa0fb902736c5c8956",
+            "reference": "acccec4ba863959b2d10c1fa0fb902736c5c8956",
+            "shasum": ""
+        },
+        "require": {
+            "ext-ctype": "*",
+            "ext-mbstring": "*",
+            "php": ">=5.4",
+            "sabre/event": ">=1.0.0,<4.0.0",
+            "sabre/uri": "~1.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.3",
+            "sabre/cs": "~0.0.1"
+        },
+        "suggest": {
+            "ext-curl": " to make http requests with the Client class"
+        },
+        "time": "2018-02-23T11:10:29+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "lib/functions.php"
+            ],
+            "psr-4": {
+                "Sabre\\HTTP\\": "lib/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Evert Pot",
+                "email": "me@evertpot.com",
+                "homepage": "http://evertpot.com/",
+                "role": "Developer"
+            }
+        ],
+        "description": "The sabre/http library provides utilities for dealing with http requests and responses. ",
+        "homepage": "https://github.com/fruux/sabre-http",
+        "keywords": [
+            "http"
+        ]
+    },
+    {
+        "name": "sabre/uri",
+        "version": "1.2.1",
+        "version_normalized": "1.2.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sabre-io/uri.git",
+            "reference": "ada354d83579565949d80b2e15593c2371225e61"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/sabre-io/uri/zipball/ada354d83579565949d80b2e15593c2371225e61",
+            "reference": "ada354d83579565949d80b2e15593c2371225e61",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4.7"
+        },
+        "require-dev": {
+            "phpunit/phpunit": ">=4.0,<6.0",
+            "sabre/cs": "~1.0.0"
+        },
+        "time": "2017-02-20T19:59:28+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "lib/functions.php"
+            ],
+            "psr-4": {
+                "Sabre\\Uri\\": "lib/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Evert Pot",
+                "email": "me@evertpot.com",
+                "homepage": "http://evertpot.com/",
+                "role": "Developer"
+            }
+        ],
+        "description": "Functions for making sense out of URIs.",
+        "homepage": "http://sabre.io/uri/",
+        "keywords": [
+            "rfc3986",
+            "uri",
+            "url"
+        ]
+    },
+    {
+        "name": "sabre/vobject",
+        "version": "4.1.5",
+        "version_normalized": "4.1.5.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sabre-io/vobject.git",
+            "reference": "0928660e92d46d2d24336a6db320636aa3a75414"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/sabre-io/vobject/zipball/0928660e92d46d2d24336a6db320636aa3a75414",
+            "reference": "0928660e92d46d2d24336a6db320636aa3a75414",
+            "shasum": ""
+        },
+        "require": {
+            "ext-mbstring": "*",
+            "php": ">=5.5",
+            "sabre/xml": ">=1.5 <3.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "> 4.8.35, <6.0.0",
+            "sabre/cs": "^1.0.0"
+        },
+        "suggest": {
+            "hoa/bench": "If you would like to run the benchmark scripts"
+        },
+        "time": "2018-03-08T21:06:39+00:00",
+        "bin": [
+            "bin/vobject",
+            "bin/generate_vcards"
+        ],
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "4.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Sabre\\VObject\\": "lib/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Evert Pot",
+                "email": "me@evertpot.com",
+                "homepage": "http://evertpot.com/",
+                "role": "Developer"
+            },
+            {
+                "name": "Dominik Tobschall",
+                "email": "dominik@fruux.com",
+                "homepage": "http://tobschall.de/",
+                "role": "Developer"
+            },
+            {
+                "name": "Ivan Enderlin",
+                "email": "ivan.enderlin@hoa-project.net",
+                "homepage": "http://mnt.io/",
+                "role": "Developer"
+            }
+        ],
+        "description": "The VObject library for PHP allows you to easily parse and manipulate iCalendar and vCard objects",
+        "homepage": "http://sabre.io/vobject/",
+        "keywords": [
+            "availability",
+            "freebusy",
+            "iCalendar",
+            "ical",
+            "ics",
+            "jCal",
+            "jCard",
+            "recurrence",
+            "rfc2425",
+            "rfc2426",
+            "rfc2739",
+            "rfc4770",
+            "rfc5545",
+            "rfc5546",
+            "rfc6321",
+            "rfc6350",
+            "rfc6351",
+            "rfc6474",
+            "rfc6638",
+            "rfc6715",
+            "rfc6868",
+            "vCalendar",
+            "vCard",
+            "vcf",
+            "xCal",
+            "xCard"
+        ]
+    },
+    {
+        "name": "sabre/xml",
+        "version": "1.5.0",
+        "version_normalized": "1.5.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sabre-io/xml.git",
+            "reference": "59b20e5bbace9912607481634f97d05a776ffca7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/sabre-io/xml/zipball/59b20e5bbace9912607481634f97d05a776ffca7",
+            "reference": "59b20e5bbace9912607481634f97d05a776ffca7",
+            "shasum": ""
+        },
+        "require": {
+            "ext-dom": "*",
+            "ext-xmlreader": "*",
+            "ext-xmlwriter": "*",
+            "lib-libxml": ">=2.6.20",
+            "php": ">=5.5.5",
+            "sabre/uri": ">=1.0,<3.0.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "*",
+            "sabre/cs": "~1.0.0"
+        },
+        "time": "2016-10-09T22:57:52+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Sabre\\Xml\\": "lib/"
+            },
+            "files": [
+                "lib/Deserializer/functions.php",
+                "lib/Serializer/functions.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Evert Pot",
+                "email": "me@evertpot.com",
+                "homepage": "http://evertpot.com/",
+                "role": "Developer"
+            },
+            {
+                "name": "Markus Staab",
+                "email": "markus.staab@redaxo.de",
+                "role": "Developer"
+            }
+        ],
+        "description": "sabre/xml is an XML library that you may not hate.",
+        "homepage": "https://sabre.io/xml/",
+        "keywords": [
+            "XMLReader",
+            "XMLWriter",
+            "dom",
+            "xml"
+        ]
+    },
+    {
+        "name": "squizlabs/php_codesniffer",
+        "version": "2.9.1",
+        "version_normalized": "2.9.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
+            "reference": "dcbed1074f8244661eecddfc2a675430d8d33f62"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/dcbed1074f8244661eecddfc2a675430d8d33f62",
+            "reference": "dcbed1074f8244661eecddfc2a675430d8d33f62",
+            "shasum": ""
+        },
+        "require": {
+            "ext-simplexml": "*",
+            "ext-tokenizer": "*",
+            "ext-xmlwriter": "*",
+            "php": ">=5.1.2"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.0"
+        },
+        "time": "2017-05-22T02:43:20+00:00",
+        "bin": [
+            "scripts/phpcs",
+            "scripts/phpcbf"
+        ],
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "CodeSniffer.php",
+                "CodeSniffer/CLI.php",
+                "CodeSniffer/Exception.php",
+                "CodeSniffer/File.php",
+                "CodeSniffer/Fixer.php",
+                "CodeSniffer/Report.php",
+                "CodeSniffer/Reporting.php",
+                "CodeSniffer/Sniff.php",
+                "CodeSniffer/Tokens.php",
+                "CodeSniffer/Reports/",
+                "CodeSniffer/Tokenizers/",
+                "CodeSniffer/DocGenerators/",
+                "CodeSniffer/Standards/AbstractPatternSniff.php",
+                "CodeSniffer/Standards/AbstractScopeSniff.php",
+                "CodeSniffer/Standards/AbstractVariableSniff.php",
+                "CodeSniffer/Standards/IncorrectPatternException.php",
+                "CodeSniffer/Standards/Generic/Sniffs/",
+                "CodeSniffer/Standards/MySource/Sniffs/",
+                "CodeSniffer/Standards/PEAR/Sniffs/",
+                "CodeSniffer/Standards/PSR1/Sniffs/",
+                "CodeSniffer/Standards/PSR2/Sniffs/",
+                "CodeSniffer/Standards/Squiz/Sniffs/",
+                "CodeSniffer/Standards/Zend/Sniffs/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Greg Sherwood",
+                "role": "lead"
+            }
+        ],
+        "description": "PHP_CodeSniffer tokenizes PHP, JavaScript and CSS files and detects violations of a defined set of coding standards.",
+        "homepage": "http://www.squizlabs.com/php-codesniffer",
+        "keywords": [
+            "phpcs",
+            "standards"
+        ]
+    },
+    {
+        "name": "symfony/filesystem",
+        "version": "v2.8.37",
+        "version_normalized": "2.8.37.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/filesystem.git",
+            "reference": "125403a59e4cb4e3ebf46d0162fabcde613d2b97"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/filesystem/zipball/125403a59e4cb4e3ebf46d0162fabcde613d2b97",
+            "reference": "125403a59e4cb4e3ebf46d0162fabcde613d2b97",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.9"
+        },
+        "time": "2018-02-19T16:23:47+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.8-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Component\\Filesystem\\": ""
+            },
+            "exclude-from-classmap": [
+                "/Tests/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony Filesystem Component",
+        "homepage": "https://symfony.com"
+    },
+    {
+        "name": "tightenco/collect",
+        "version": "v5.5.32",
+        "version_normalized": "5.5.32.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/tightenco/collect.git",
+            "reference": "0db8c8aa2aae44af756437ba6e98d9b0bd1ecec3"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/tightenco/collect/zipball/0db8c8aa2aae44af756437ba6e98d9b0bd1ecec3",
+            "reference": "0db8c8aa2aae44af756437ba6e98d9b0bd1ecec3",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=7.0"
+        },
+        "require-dev": {
+            "mockery/mockery": "~1.0",
+            "phpunit/phpunit": "~6.0"
+        },
+        "suggest": {
+            "symfony/var-dumper": "Required to prettify dd() and dump() (~3.3)."
+        },
+        "time": "2018-01-25T19:26:27+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "src/Illuminate/Support/helpers.php"
+            ],
+            "psr-4": {
+                "Illuminate\\": "src/Illuminate"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Taylor Otwell",
+                "email": "taylorotwell@gmail.com"
+            }
+        ],
+        "description": "Collect - Illuminate Collections as a separate package.",
+        "keywords": [
+            "collection",
+            "laravel"
+        ]
+    },
+    {
+        "name": "wikimedia/composer-merge-plugin",
+        "version": "v1.4.1",
+        "version_normalized": "1.4.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/wikimedia/composer-merge-plugin.git",
+            "reference": "81c6ac72a24a67383419c7eb9aa2b3437f2ab100"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/wikimedia/composer-merge-plugin/zipball/81c6ac72a24a67383419c7eb9aa2b3437f2ab100",
+            "reference": "81c6ac72a24a67383419c7eb9aa2b3437f2ab100",
+            "shasum": ""
+        },
+        "require": {
+            "composer-plugin-api": "^1.0",
+            "php": ">=5.3.2"
+        },
+        "require-dev": {
+            "composer/composer": "~1.0.0",
+            "jakub-onderka/php-parallel-lint": "~0.8",
+            "phpunit/phpunit": "~4.8|~5.0",
+            "squizlabs/php_codesniffer": "~2.1.0"
+        },
+        "time": "2017-04-25T02:31:25+00:00",
+        "type": "composer-plugin",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.3.x-dev"
+            },
+            "class": "Wikimedia\\Composer\\MergePlugin"
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Wikimedia\\Composer\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Bryan Davis",
+                "email": "bd808@wikimedia.org"
+            }
+        ],
+        "description": "Composer plugin to merge multiple composer.json files"
+    },
+    {
+        "name": "wimg/php-compatibility",
+        "version": "8.1.0",
+        "version_normalized": "8.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/wimg/PHPCompatibility.git",
+            "reference": "4ac01e4fe8faaa4f8d3b3cd06ea92e5418ce472e"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/wimg/PHPCompatibility/zipball/4ac01e4fe8faaa4f8d3b3cd06ea92e5418ce472e",
+            "reference": "4ac01e4fe8faaa4f8d3b3cd06ea92e5418ce472e",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3",
+            "squizlabs/php_codesniffer": "^2.2 || ^3.0.2"
+        },
+        "conflict": {
+            "squizlabs/php_codesniffer": "2.6.2"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0"
+        },
+        "suggest": {
+            "dealerdirect/phpcodesniffer-composer-installer": "^0.4.3"
+        },
+        "time": "2017-12-27T21:58:38+00:00",
+        "type": "phpcodesniffer-standard",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "PHPCompatibility\\": "PHPCompatibility/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-3.0"
+        ],
+        "authors": [
+            {
+                "name": "Wim Godden",
+                "role": "lead"
+            }
+        ],
+        "description": "A set of sniffs for PHP_CodeSniffer that checks for PHP version compatibility.",
+        "homepage": "http://techblog.wimgodden.be/tag/codesniffer/",
+        "keywords": [
+            "compatibility",
+            "phpcs",
+            "standards"
+        ]
+    }
+]

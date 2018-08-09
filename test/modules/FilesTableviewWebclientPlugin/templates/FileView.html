@@ -1,0 +1,28 @@
+<div class="item file" data-bind="
+	draggablePlace: !$parent.bInPopup ? $parent.dragAndDropHelperBound : null, 
+	draggableDragStartCallback: function() {if (!$parent.bInPopup) $root.dragover(true);}, 
+	draggableDragStopCallback: function() {if (!$parent.bInPopup) $root.dragover(false);}, 
+	css: {'selected': selected, 'checked': checked, 'deleted': deleted, 'shared': shared}"
+>
+	<div class="item_content dragHandle" style="white-space: nowrap;">
+		<span class="image" data-bind="customTooltip: getTooltip(iconAction()), click: function () { executeAction(iconAction()); }, 
+				css: {'has_action': iconAction() !== ''}, clickBubble: iconAction() === ''">
+			<!-- ko if: thumbnailSrc() !== '' -->
+			<img data-bind="attr: {'src': thumbnailSrc()}" />
+			<!-- /ko -->
+			<!-- ko if: thumbnailSrc() === '' -->
+			<span class="icon" data-bind="css: extension().toLowerCase()"></span>
+			<!-- /ko -->
+			<span style="margin-right: auto;" class="shared_icon" data-bind="click: function (oItem) { $root.onShareIconClick(oItem); }"></span>						
+		</span>
+		<span class="data">
+			<div class="size" style="text-align: right;">
+				<div data-bind="text: friendlySize"></div>
+				<div data-bind="text: sLastModified"></div>
+			</div>
+		
+			<span class="name fadeout" data-bind="text: fileName" style="padding-left: 10px"></span>
+		</span>
+		<div class="separator"></div>
+	</div>
+</div>

@@ -1,0 +1,2 @@
+[07-Aug-2018 17:43:36 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'id3158876_icarususer'@'localhost' (using password: YES) in /home/d2ss8kw10vu8/icarus.com.bd/icarusWebMessage.php on line 2
+[07-Aug-2018 17:43:36 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'id3158876_icarususer'@'localhost' (using password: YES) in /home/d2ss8kw10vu8/icarus.com.bd/icarusWebMessage.php on line 2

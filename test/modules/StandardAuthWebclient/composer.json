@@ -1,0 +1,10 @@
+{
+	"name": "afterlogic/aurora-module-webclient-standard-auth",
+	"type": "aurora-module",
+	"require": {
+		"afterlogic/aurora-framework": "~0.8"
+	},
+	"extra": {
+		"installer-name": "StandardAuthWebclient"
+	}
+}
