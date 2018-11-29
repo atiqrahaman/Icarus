@@ -1,0 +1,1040 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>UPGRADING.md</title>
+      </head>
+      <body>
+        <h1 id="guzzle-upgrade-guide">Guzzle Upgrade Guide</h1>
+<h2 id="5-0-to-6-0">5.0 to 6.0</h2>
+<p>Guzzle now uses <a href="http://www.php-fig.org/psr/psr-7/">PSR-7</a> for HTTP messages.
+Due to the fact that these messages are immutable, this prompted a refactoring
+of Guzzle to use a middleware based system rather than an event system. Any
+HTTP message interaction (e.g., <code>GuzzleHttp\Message\Request</code>) need to be
+updated to work with the new immutable PSR-7 request and response objects. Any
+event listeners or subscribers need to be updated to become middleware
+functions that wrap handlers (or are injected into a
+<code>GuzzleHttp\HandlerStack</code>).</p>
+<ul>
+<li>Removed <code>GuzzleHttp\BatchResults</code></li>
+<li>Removed <code>GuzzleHttp\Collection</code></li>
+<li>Removed <code>GuzzleHttp\HasDataTrait</code></li>
+<li>Removed <code>GuzzleHttp\ToArrayInterface</code></li>
+<li>The <code>guzzlehttp/streams</code> dependency has been removed. Stream functionality
+is now present in the <code>GuzzleHttp\Psr7</code> namespace provided by the
+<code>guzzlehttp/psr7</code> package.</li>
+<li>Guzzle no longer uses ReactPHP promises and now uses the
+<code>guzzlehttp/promises</code> library. We use a custom promise library for three
+significant reasons:<ol>
+<li>React promises (at the time of writing this) are recursive. Promise
+chaining and promise resolution will eventually blow the stack. Guzzle
+promises are not recursive as they use a sort of trampolining technique.
+Note: there has been movement in the React project to modify promises to
+no longer utilize recursion.</li>
+<li>Guzzle needs to have the ability to synchronously block on a promise to
+wait for a result. Guzzle promises allows this functionality (and does
+not require the use of recursion).</li>
+<li>Because we need to be able to wait on a result, doing so using React
+promises requires wrapping react promises with RingPHP futures. This
+overhead is no longer needed, reducing stack sizes, reducing complexity,
+and improving performance.</li>
+</ol>
+</li>
+<li><code>GuzzleHttp\Mimetypes</code> has been moved to a function in
+<code>GuzzleHttp\Psr7\mimetype_from_extension</code> and
+<code>GuzzleHttp\Psr7\mimetype_from_filename</code>.</li>
+<li><code>GuzzleHttp\Query</code> and <code>GuzzleHttp\QueryParser</code> have been removed. Query
+strings must now be passed into request objects as strings, or provided to
+the <code>query</code> request option when creating requests with clients. The <code>query</code>
+option uses PHP&#39;s <code>http_build_query</code> to convert an array to a string. If you
+need a different serialization technique, you will need to pass the query
+string in as a string. There are a couple helper functions that will make
+working with query strings easier: <code>GuzzleHttp\Psr7\parse_query</code> and
+<code>GuzzleHttp\Psr7\build_query</code>.</li>
+<li>Guzzle no longer has a dependency on RingPHP. Due to the use of a middleware
+system based on PSR-7, using RingPHP and it&#39;s middleware system as well adds
+more complexity than the benefits it provides. All HTTP handlers that were
+present in RingPHP have been modified to work directly with PSR-7 messages
+and placed in the <code>GuzzleHttp\Handler</code> namespace. This significantly reduces
+complexity in Guzzle, removes a dependency, and improves performance. RingPHP
+will be maintained for Guzzle 5 support, but will no longer be a part of
+Guzzle 6.</li>
+<li>As Guzzle now uses a middleware based systems the event system and RingPHP
+integration has been removed. Note: while the event system has been removed,
+it is possible to add your own type of event system that is powered by the
+middleware system.<ul>
+<li>Removed the <code>Event</code> namespace.</li>
+<li>Removed the <code>Subscriber</code> namespace.</li>
+<li>Removed <code>Transaction</code> class</li>
+<li>Removed <code>RequestFsm</code></li>
+<li>Removed <code>RingBridge</code></li>
+<li><code>GuzzleHttp\Subscriber\Cookie</code> is now provided by
+<code>GuzzleHttp\Middleware::cookies</code></li>
+<li><code>GuzzleHttp\Subscriber\HttpError</code> is now provided by
+<code>GuzzleHttp\Middleware::httpError</code></li>
+<li><code>GuzzleHttp\Subscriber\History</code> is now provided by
+<code>GuzzleHttp\Middleware::history</code></li>
+<li><code>GuzzleHttp\Subscriber\Mock</code> is now provided by
+<code>GuzzleHttp\Handler\MockHandler</code></li>
+<li><code>GuzzleHttp\Subscriber\Prepare</code> is now provided by
+<code>GuzzleHttp\PrepareBodyMiddleware</code></li>
+<li><code>GuzzleHttp\Subscriber\Redirect</code> is now provided by
+<code>GuzzleHttp\RedirectMiddleware</code></li>
+</ul>
+</li>
+<li>Guzzle now uses <code>Psr\Http\Message\UriInterface</code> (implements in
+<code>GuzzleHttp\Psr7\Uri</code>) for URI support. <code>GuzzleHttp\Url</code> is now gone.</li>
+<li>Static functions in <code>GuzzleHttp\Utils</code> have been moved to namespaced
+functions under the <code>GuzzleHttp</code> namespace. This requires either a Composer
+based autoloader or you to include functions.php.</li>
+<li><code>GuzzleHttp\ClientInterface::getDefaultOption</code> has been renamed to
+<code>GuzzleHttp\ClientInterface::getConfig</code>.</li>
+<li><code>GuzzleHttp\ClientInterface::setDefaultOption</code> has been removed.</li>
+<li>The <code>json</code> and <code>xml</code> methods of response objects has been removed. With the
+migration to strictly adhering to PSR-7 as the interface for Guzzle messages,
+adding methods to message interfaces would actually require Guzzle messages
+to extend from PSR-7 messages rather then work with them directly.</li>
+</ul>
+<h2 id="migrating-to-middleware">Migrating to middleware</h2>
+<p>The change to PSR-7 unfortunately required significant refactoring to Guzzle
+due to the fact that PSR-7 messages are immutable. Guzzle 5 relied on an event
+system from plugins. The event system relied on mutability of HTTP messages and
+side effects in order to work. With immutable messages, you have to change your
+workflow to become more about either returning a value (e.g., functional
+middlewares) or setting a value on an object. Guzzle v6 has chosen the
+functional middleware approach.</p>
+<p>Instead of using the event system to listen for things like the <code>before</code> event,
+you now create a stack based middleware function that intercepts a request on
+the way in and the promise of the response on the way out. This is a much
+simpler and more predictable approach than the event system and works nicely
+with PSR-7 middleware. Due to the use of promises, the middleware system is
+also asynchronous.</p>
+<p>v5:</p>
+<pre><code class="lang-php">use GuzzleHttp\Event\BeforeEvent;
+$client = new GuzzleHttp\Client();
+// Get the emitter and listen to the before event.
+$client-&gt;getEmitter()-&gt;on(&#39;before&#39;, function (BeforeEvent $e) {
+    // Guzzle v5 events relied on mutation
+    $e-&gt;getRequest()-&gt;setHeader(&#39;X-Foo&#39;, &#39;Bar&#39;);
+});
+</code></pre>
+<p>v6:</p>
+<p>In v6, you can modify the request before it is sent using the <code>mapRequest</code>
+middleware. The idiomatic way in v6 to modify the request/response lifecycle is
+to setup a handler middleware stack up front and inject the handler into a
+client.</p>
+<pre><code class="lang-php">use GuzzleHttp\Middleware;
+// Create a handler stack that has all of the default middlewares attached
+$handler = GuzzleHttp\HandlerStack::create();
+// Push the handler onto the handler stack
+$handler-&gt;push(Middleware::mapRequest(function (RequestInterface $request) {
+    // Notice that we have to return a request object
+    return $request-&gt;withHeader(&#39;X-Foo&#39;, &#39;Bar&#39;);
+}));
+// Inject the handler into the client
+$client = new GuzzleHttp\Client([&#39;handler&#39; =&gt; $handler]);
+</code></pre>
+<h2 id="post-requests">POST Requests</h2>
+<p>This version added the <a href="http://guzzle.readthedocs.org/en/latest/request-options.html#form_params"><code>form_params</code></a>
+and <code>multipart</code> request options. <code>form_params</code> is an associative array of
+strings or array of strings and is used to serialize an
+<code>application/x-www-form-urlencoded</code> POST request. The
+<a href="http://guzzle.readthedocs.org/en/latest/request-options.html#multipart"><code>multipart</code></a>
+option is now used to send a multipart/form-data POST request.</p>
+<p><code>GuzzleHttp\Post\PostFile</code> has been removed. Use the <code>multipart</code> option to add
+POST files to a multipart/form-data request.</p>
+<p>The <code>body</code> option no longer accepts an array to send POST requests. Please use
+<code>multipart</code> or <code>form_params</code> instead.</p>
+<p>The <code>base_url</code> option has been renamed to <code>base_uri</code>.</p>
+<h2 id="4-x-to-5-0">4.x to 5.0</h2>
+<h2 id="rewritten-adapter-layer">Rewritten Adapter Layer</h2>
+<p>Guzzle now uses <a href="http://ringphp.readthedocs.org/en/latest">RingPHP</a> to send
+HTTP requests. The <code>adapter</code> option in a <code>GuzzleHttp\Client</code> constructor
+is still supported, but it has now been renamed to <code>handler</code>. Instead of
+passing a <code>GuzzleHttp\Adapter\AdapterInterface</code>, you must now pass a PHP
+<code>callable</code> that follows the RingPHP specification.</p>
+<h2 id="removed-fluent-interfaces">Removed Fluent Interfaces</h2>
+<p><a href="http://ocramius.github.io/blog/fluent-interfaces-are-evil">Fluent interfaces were removed</a>
+from the following classes:</p>
+<ul>
+<li><code>GuzzleHttp\Collection</code></li>
+<li><code>GuzzleHttp\Url</code></li>
+<li><code>GuzzleHttp\Query</code></li>
+<li><code>GuzzleHttp\Post\PostBody</code></li>
+<li><code>GuzzleHttp\Cookie\SetCookie</code></li>
+</ul>
+<h2 id="removed-functions-php">Removed functions.php</h2>
+<p>Removed &quot;functions.php&quot;, so that Guzzle is truly PSR-4 compliant. The following
+functions can be used as replacements.</p>
+<ul>
+<li><code>GuzzleHttp\json_decode</code> -&gt; <code>GuzzleHttp\Utils::jsonDecode</code></li>
+<li><code>GuzzleHttp\get_path</code> -&gt; <code>GuzzleHttp\Utils::getPath</code></li>
+<li><code>GuzzleHttp\Utils::setPath</code> -&gt; <code>GuzzleHttp\set_path</code></li>
+<li><code>GuzzleHttp\Pool::batch</code> -&gt; <code>GuzzleHttp\batch</code>. This function is, however,
+deprecated in favor of using <code>GuzzleHttp\Pool::batch()</code>.</li>
+</ul>
+<p>The &quot;procedural&quot; global client has been removed with no replacement (e.g.,
+<code>GuzzleHttp\get()</code>, <code>GuzzleHttp\post()</code>, etc.). Use a <code>GuzzleHttp\Client</code>
+object as a replacement.</p>
+<h2 id="throwimmediately-has-been-removed"><code>throwImmediately</code> has been removed</h2>
+<p>The concept of &quot;throwImmediately&quot; has been removed from exceptions and error
+events. This control mechanism was used to stop a transfer of concurrent
+requests from completing. This can now be handled by throwing the exception or
+by cancelling a pool of requests or each outstanding future request
+individually.</p>
+<h2 id="headers-event-has-been-removed">headers event has been removed</h2>
+<p>Removed the &quot;headers&quot; event. This event was only useful for changing the
+body a response once the headers of the response were known. You can implement
+a similar behavior in a number of ways. One example might be to use a
+FnStream that has access to the transaction being sent. For example, when the
+first byte is written, you could check if the response headers match your
+expectations, and if so, change the actual stream body that is being
+written to.</p>
+<h2 id="updates-to-http-messages">Updates to HTTP Messages</h2>
+<p>Removed the <code>asArray</code> parameter from
+<code>GuzzleHttp\Message\MessageInterface::getHeader</code>. If you want to get a header
+value as an array, then use the newly added <code>getHeaderAsArray()</code> method of
+<code>MessageInterface</code>. This change makes the Guzzle interfaces compatible with
+the PSR-7 interfaces.</p>
+<h2 id="3-x-to-4-0">3.x to 4.0</h2>
+<h2 id="overarching-changes-">Overarching changes:</h2>
+<ul>
+<li>Now requires PHP 5.4 or greater.</li>
+<li>No longer requires cURL to send requests.</li>
+<li>Guzzle no longer wraps every exception it throws. Only exceptions that are
+recoverable are now wrapped by Guzzle.</li>
+<li>Various namespaces have been removed or renamed.</li>
+<li>No longer requiring the Symfony EventDispatcher. A custom event dispatcher
+based on the Symfony EventDispatcher is
+now utilized in <code>GuzzleHttp\Event\EmitterInterface</code> (resulting in significant
+speed and functionality improvements).</li>
+</ul>
+<p>Changes per Guzzle 3.x namespace are described below.</p>
+<h2 id="batch">Batch</h2>
+<p>The <code>Guzzle\Batch</code> namespace has been removed. This is best left to
+third-parties to implement on top of Guzzle&#39;s core HTTP library.</p>
+<h2 id="cache">Cache</h2>
+<p>The <code>Guzzle\Cache</code> namespace has been removed. (Todo: No suitable replacement
+has been implemented yet, but hoping to utilize a PSR cache interface).</p>
+<h2 id="common">Common</h2>
+<ul>
+<li>Removed all of the wrapped exceptions. It&#39;s better to use the standard PHP
+library for unrecoverable exceptions.</li>
+<li><code>FromConfigInterface</code> has been removed.</li>
+<li><code>Guzzle\Common\Version</code> has been removed. The VERSION constant can be found
+at <code>GuzzleHttp\ClientInterface::VERSION</code>.</li>
+</ul>
+<h3 id="collection">Collection</h3>
+<ul>
+<li><code>getAll</code> has been removed. Use <code>toArray</code> to convert a collection to an array.</li>
+<li><code>inject</code> has been removed.</li>
+<li><code>keySearch</code> has been removed.</li>
+<li><code>getPath</code> no longer supports wildcard expressions. Use something better like
+JMESPath for this.</li>
+<li><code>setPath</code> now supports appending to an existing array via the <code>[]</code> notation.</li>
+</ul>
+<h3 id="events">Events</h3>
+<p>Guzzle no longer requires Symfony&#39;s EventDispatcher component. Guzzle now uses
+<code>GuzzleHttp\Event\Emitter</code>.</p>
+<ul>
+<li><code>Symfony\Component\EventDispatcher\EventDispatcherInterface</code> is replaced by
+<code>GuzzleHttp\Event\EmitterInterface</code>.</li>
+<li><code>Symfony\Component\EventDispatcher\EventDispatcher</code> is replaced by
+<code>GuzzleHttp\Event\Emitter</code>.</li>
+<li><code>Symfony\Component\EventDispatcher\Event</code> is replaced by
+<code>GuzzleHttp\Event\Event</code>, and Guzzle now has an EventInterface in
+<code>GuzzleHttp\Event\EventInterface</code>.</li>
+<li><code>AbstractHasDispatcher</code> has moved to a trait, <code>HasEmitterTrait</code>, and
+<code>HasDispatcherInterface</code> has moved to <code>HasEmitterInterface</code>. Retrieving the
+event emitter of a request, client, etc. now uses the <code>getEmitter</code> method
+rather than the <code>getDispatcher</code> method.</li>
+</ul>
+<h4 id="emitter">Emitter</h4>
+<ul>
+<li>Use the <code>once()</code> method to add a listener that automatically removes itself
+the first time it is invoked.</li>
+<li>Use the <code>listeners()</code> method to retrieve a list of event listeners rather than
+the <code>getListeners()</code> method.</li>
+<li>Use <code>emit()</code> instead of <code>dispatch()</code> to emit an event from an emitter.</li>
+<li>Use <code>attach()</code> instead of <code>addSubscriber()</code> and <code>detach()</code> instead of
+<code>removeSubscriber()</code>.</li>
+</ul>
+<pre><code class="lang-php">$mock = new Mock();
+// 3.x
+$request-&gt;getEventDispatcher()-&gt;addSubscriber($mock);
+$request-&gt;getEventDispatcher()-&gt;removeSubscriber($mock);
+// 4.x
+$request-&gt;getEmitter()-&gt;attach($mock);
+$request-&gt;getEmitter()-&gt;detach($mock);
+</code></pre>
+<p>Use the <code>on()</code> method to add a listener rather than the <code>addListener()</code> method.</p>
+<pre><code class="lang-php">// 3.x
+$request-&gt;getEventDispatcher()-&gt;addListener(&#39;foo&#39;, function (Event $event) { /* ... */ } );
+// 4.x
+$request-&gt;getEmitter()-&gt;on(&#39;foo&#39;, function (Event $event, $name) { /* ... */ } );
+</code></pre>
+<h2 id="http">Http</h2>
+<h3 id="general-changes">General changes</h3>
+<ul>
+<li>The cacert.pem certificate has been moved to <code>src/cacert.pem</code>.</li>
+<li>Added the concept of adapters that are used to transfer requests over the
+wire.</li>
+<li>Simplified the event system.</li>
+<li>Sending requests in parallel is still possible, but batching is no longer a
+concept of the HTTP layer. Instead, you must use the <code>complete</code> and <code>error</code>
+events to asynchronously manage parallel request transfers.</li>
+<li><code>Guzzle\Http\Url</code> has moved to <code>GuzzleHttp\Url</code>.</li>
+<li><code>Guzzle\Http\QueryString</code> has moved to <code>GuzzleHttp\Query</code>.</li>
+<li>QueryAggregators have been rewritten so that they are simply callable
+functions.</li>
+<li><code>GuzzleHttp\StaticClient</code> has been removed. Use the functions provided in
+<code>functions.php</code> for an easy to use static client instance.</li>
+<li>Exceptions in <code>GuzzleHttp\Exception</code> have been updated to all extend from
+<code>GuzzleHttp\Exception\TransferException</code>.</li>
+</ul>
+<h3 id="client">Client</h3>
+<p>Calling methods like <code>get()</code>, <code>post()</code>, <code>head()</code>, etc. no longer create and
+return a request, but rather creates a request, sends the request, and returns
+the response.</p>
+<pre><code class="lang-php">// 3.0
+$request = $client-&gt;get(&#39;/&#39;);
+$response = $request-&gt;send();
+
+// 4.0
+$response = $client-&gt;get(&#39;/&#39;);
+
+// or, to mirror the previous behavior
+$request = $client-&gt;createRequest(&#39;GET&#39;, &#39;/&#39;);
+$response = $client-&gt;send($request);
+</code></pre>
+<p><code>GuzzleHttp\ClientInterface</code> has changed.</p>
+<ul>
+<li>The <code>send</code> method no longer accepts more than one request. Use <code>sendAll</code> to
+send multiple requests in parallel.</li>
+<li><code>setUserAgent()</code> has been removed. Use a default request option instead. You
+could, for example, do something like:
+<code>$client-&gt;setConfig(&#39;defaults/headers/User-Agent&#39;, &#39;Foo/Bar &#39; . $client::getDefaultUserAgent())</code>.</li>
+<li><code>setSslVerification()</code> has been removed. Use default request options instead,
+like <code>$client-&gt;setConfig(&#39;defaults/verify&#39;, true)</code>.</li>
+</ul>
+<p><code>GuzzleHttp\Client</code> has changed.</p>
+<ul>
+<li>The constructor now accepts only an associative array. You can include a
+<code>base_url</code> string or array to use a URI template as the base URL of a client.
+You can also specify a <code>defaults</code> key that is an associative array of default
+request options. You can pass an <code>adapter</code> to use a custom adapter,
+<code>batch_adapter</code> to use a custom adapter for sending requests in parallel, or
+a <code>message_factory</code> to change the factory used to create HTTP requests and
+responses.</li>
+<li>The client no longer emits a <code>client.create_request</code> event.</li>
+<li>Creating requests with a client no longer automatically utilize a URI
+template. You must pass an array into a creational method (e.g.,
+<code>createRequest</code>, <code>get</code>, <code>put</code>, etc.) in order to expand a URI template.</li>
+</ul>
+<h3 id="messages">Messages</h3>
+<p>Messages no longer have references to their counterparts (i.e., a request no
+longer has a reference to it&#39;s response, and a response no loger has a
+reference to its request). This association is now managed through a
+<code>GuzzleHttp\Adapter\TransactionInterface</code> object. You can get references to
+these transaction objects using request events that are emitted over the
+lifecycle of a request.</p>
+<h4 id="requests-with-a-body">Requests with a body</h4>
+<ul>
+<li><code>GuzzleHttp\Message\EntityEnclosingRequest</code> and
+<code>GuzzleHttp\Message\EntityEnclosingRequestInterface</code> have been removed. The
+separation between requests that contain a body and requests that do not
+contain a body has been removed, and now <code>GuzzleHttp\Message\RequestInterface</code>
+handles both use cases.</li>
+<li>Any method that previously accepts a <code>GuzzleHttp\Response</code> object now accept a
+<code>GuzzleHttp\Message\ResponseInterface</code>.</li>
+<li><code>GuzzleHttp\Message\RequestFactoryInterface</code> has been renamed to
+<code>GuzzleHttp\Message\MessageFactoryInterface</code>. This interface is used to create
+both requests and responses and is implemented in
+<code>GuzzleHttp\Message\MessageFactory</code>.</li>
+<li>POST field and file methods have been removed from the request object. You
+must now use the methods made available to <code>GuzzleHttp\Post\PostBodyInterface</code>
+to control the format of a POST body. Requests that are created using a
+standard <code>GuzzleHttp\Message\MessageFactoryInterface</code> will automatically use
+a <code>GuzzleHttp\Post\PostBody</code> body if the body was passed as an array or if
+the method is POST and no body is provided.</li>
+</ul>
+<pre><code class="lang-php">$request = $client-&gt;createRequest(&#39;POST&#39;, &#39;/&#39;);
+$request-&gt;getBody()-&gt;setField(&#39;foo&#39;, &#39;bar&#39;);
+$request-&gt;getBody()-&gt;addFile(new PostFile(&#39;file_key&#39;, fopen(&#39;/path/to/content&#39;, &#39;r&#39;)));
+</code></pre>
+<h4 id="headers">Headers</h4>
+<ul>
+<li><code>GuzzleHttp\Message\Header</code> has been removed. Header values are now simply
+represented by an array of values or as a string. Header values are returned
+as a string by default when retrieving a header value from a message. You can
+pass an optional argument of <code>true</code> to retrieve a header value as an array
+of strings instead of a single concatenated string.</li>
+<li><code>GuzzleHttp\PostFile</code> and <code>GuzzleHttp\PostFileInterface</code> have been moved to
+<code>GuzzleHttp\Post</code>. This interface has been simplified and now allows the
+addition of arbitrary headers.</li>
+<li>Custom headers like <code>GuzzleHttp\Message\Header\Link</code> have been removed. Most
+of the custom headers are now handled separately in specific
+subscribers/plugins, and <code>GuzzleHttp\Message\HeaderValues::parseParams()</code> has
+been updated to properly handle headers that contain parameters (like the
+<code>Link</code> header).</li>
+</ul>
+<h4 id="responses">Responses</h4>
+<ul>
+<li><code>GuzzleHttp\Message\Response::getInfo()</code> and
+<code>GuzzleHttp\Message\Response::setInfo()</code> have been removed. Use the event
+system to retrieve this type of information.</li>
+<li><code>GuzzleHttp\Message\Response::getRawHeaders()</code> has been removed.</li>
+<li><code>GuzzleHttp\Message\Response::getMessage()</code> has been removed.</li>
+<li><code>GuzzleHttp\Message\Response::calculateAge()</code> and other cache specific
+methods have moved to the CacheSubscriber.</li>
+<li>Header specific helper functions like <code>getContentMd5()</code> have been removed.
+Just use <code>getHeader(&#39;Content-MD5&#39;)</code> instead.</li>
+<li><code>GuzzleHttp\Message\Response::setRequest()</code> and
+<code>GuzzleHttp\Message\Response::getRequest()</code> have been removed. Use the event
+system to work with request and response objects as a transaction.</li>
+<li><code>GuzzleHttp\Message\Response::getRedirectCount()</code> has been removed. Use the
+Redirect subscriber instead.</li>
+<li><code>GuzzleHttp\Message\Response::isSuccessful()</code> and other related methods have
+been removed. Use <code>getStatusCode()</code> instead.</li>
+</ul>
+<h4 id="streaming-responses">Streaming responses</h4>
+<p>Streaming requests can now be created by a client directly, returning a
+<code>GuzzleHttp\Message\ResponseInterface</code> object that contains a body stream
+referencing an open PHP HTTP stream.</p>
+<pre><code class="lang-php">// 3.0
+use Guzzle\Stream\PhpStreamRequestFactory;
+$request = $client-&gt;get(&#39;/&#39;);
+$factory = new PhpStreamRequestFactory();
+$stream = $factory-&gt;fromRequest($request);
+$data = $stream-&gt;read(1024);
+
+// 4.0
+$response = $client-&gt;get(&#39;/&#39;, [&#39;stream&#39; =&gt; true]);
+// Read some data off of the stream in the response body
+$data = $response-&gt;getBody()-&gt;read(1024);
+</code></pre>
+<h4 id="redirects">Redirects</h4>
+<p>The <code>configureRedirects()</code> method has been removed in favor of a
+<code>allow_redirects</code> request option.</p>
+<pre><code class="lang-php">// Standard redirects with a default of a max of 5 redirects
+$request = $client-&gt;createRequest(&#39;GET&#39;, &#39;/&#39;, [&#39;allow_redirects&#39; =&gt; true]);
+
+// Strict redirects with a custom number of redirects
+$request = $client-&gt;createRequest(&#39;GET&#39;, &#39;/&#39;, [
+    &#39;allow_redirects&#39; =&gt; [&#39;max&#39; =&gt; 5, &#39;strict&#39; =&gt; true]
+]);
+</code></pre>
+<h4 id="entitybody">EntityBody</h4>
+<p>EntityBody interfaces and classes have been removed or moved to
+<code>GuzzleHttp\Stream</code>. All classes and interfaces that once required
+<code>GuzzleHttp\EntityBodyInterface</code> now require
+<code>GuzzleHttp\Stream\StreamInterface</code>. Creating a new body for a request no
+longer uses <code>GuzzleHttp\EntityBody::factory</code> but now uses
+<code>GuzzleHttp\Stream\Stream::factory</code> or even better:
+<code>GuzzleHttp\Stream\create()</code>.</p>
+<ul>
+<li><code>Guzzle\Http\EntityBodyInterface</code> is now <code>GuzzleHttp\Stream\StreamInterface</code></li>
+<li><code>Guzzle\Http\EntityBody</code> is now <code>GuzzleHttp\Stream\Stream</code></li>
+<li><code>Guzzle\Http\CachingEntityBody</code> is now <code>GuzzleHttp\Stream\CachingStream</code></li>
+<li><code>Guzzle\Http\ReadLimitEntityBody</code> is now <code>GuzzleHttp\Stream\LimitStream</code></li>
+<li><code>Guzzle\Http\IoEmittyinEntityBody</code> has been removed.</li>
+</ul>
+<h4 id="request-lifecycle-events">Request lifecycle events</h4>
+<p>Requests previously submitted a large number of requests. The number of events
+emitted over the lifecycle of a request has been significantly reduced to make
+it easier to understand how to extend the behavior of a request. All events
+emitted during the lifecycle of a request now emit a custom
+<code>GuzzleHttp\Event\EventInterface</code> object that contains context providing
+methods and a way in which to modify the transaction at that specific point in
+time (e.g., intercept the request and set a response on the transaction).</p>
+<ul>
+<li><code>request.before_send</code> has been renamed to <code>before</code> and now emits a
+<code>GuzzleHttp\Event\BeforeEvent</code></li>
+<li><code>request.complete</code> has been renamed to <code>complete</code> and now emits a
+<code>GuzzleHttp\Event\CompleteEvent</code>.</li>
+<li><code>request.sent</code> has been removed. Use <code>complete</code>.</li>
+<li><code>request.success</code> has been removed. Use <code>complete</code>.</li>
+<li><code>error</code> is now an event that emits a <code>GuzzleHttp\Event\ErrorEvent</code>.</li>
+<li><code>request.exception</code> has been removed. Use <code>error</code>.</li>
+<li><code>request.receive.status_line</code> has been removed.</li>
+<li><code>curl.callback.progress</code> has been removed. Use a custom <code>StreamInterface</code> to
+maintain a status update.</li>
+<li><code>curl.callback.write</code> has been removed. Use a custom <code>StreamInterface</code> to
+intercept writes.</li>
+<li><code>curl.callback.read</code> has been removed. Use a custom <code>StreamInterface</code> to
+intercept reads.</li>
+</ul>
+<p><code>headers</code> is a new event that is emitted after the response headers of a
+request have been received before the body of the response is downloaded. This
+event emits a <code>GuzzleHttp\Event\HeadersEvent</code>.</p>
+<p>You can intercept a request and inject a response using the <code>intercept()</code> event
+of a <code>GuzzleHttp\Event\BeforeEvent</code>, <code>GuzzleHttp\Event\CompleteEvent</code>, and
+<code>GuzzleHttp\Event\ErrorEvent</code> event.</p>
+<p>See: <a href="http://docs.guzzlephp.org/en/latest/events.html">http://docs.guzzlephp.org/en/latest/events.html</a></p>
+<h2 id="inflection">Inflection</h2>
+<p>The <code>Guzzle\Inflection</code> namespace has been removed. This is not a core concern
+of Guzzle.</p>
+<h2 id="iterator">Iterator</h2>
+<p>The <code>Guzzle\Iterator</code> namespace has been removed.</p>
+<ul>
+<li><code>Guzzle\Iterator\AppendIterator</code>, <code>Guzzle\Iterator\ChunkedIterator</code>, and
+<code>Guzzle\Iterator\MethodProxyIterator</code> are nice, but not a core requirement of
+Guzzle itself.</li>
+<li><code>Guzzle\Iterator\FilterIterator</code> is no longer needed because an equivalent
+class is shipped with PHP 5.4.</li>
+<li><code>Guzzle\Iterator\MapIterator</code> is not really needed when using PHP 5.5 because
+it&#39;s easier to just wrap an iterator in a generator that maps values.</li>
+</ul>
+<p>For a replacement of these iterators, see <a href="https://github.com/nikic/iter">https://github.com/nikic/iter</a></p>
+<h2 id="log">Log</h2>
+<p>The LogPlugin has moved to <a href="https://github.com/guzzle/log-subscriber">https://github.com/guzzle/log-subscriber</a>. The
+<code>Guzzle\Log</code> namespace has been removed. Guzzle now relies on
+<code>Psr\Log\LoggerInterface</code> for all logging. The MessageFormatter class has been
+moved to <code>GuzzleHttp\Subscriber\Log\Formatter</code>.</p>
+<h2 id="parser">Parser</h2>
+<p>The <code>Guzzle\Parser</code> namespace has been removed. This was previously used to
+make it possible to plug in custom parsers for cookies, messages, URI
+templates, and URLs; however, this level of complexity is not needed in Guzzle
+so it has been removed.</p>
+<ul>
+<li>Cookie: Cookie parsing logic has been moved to
+<code>GuzzleHttp\Cookie\SetCookie::fromString</code>.</li>
+<li>Message: Message parsing logic for both requests and responses has been moved
+to <code>GuzzleHttp\Message\MessageFactory::fromMessage</code>. Message parsing is only
+used in debugging or deserializing messages, so it doesn&#39;t make sense for
+Guzzle as a library to add this level of complexity to parsing messages.</li>
+<li>UriTemplate: URI template parsing has been moved to
+<code>GuzzleHttp\UriTemplate</code>. The Guzzle library will automatically use the PECL
+URI template library if it is installed.</li>
+<li>Url: URL parsing is now performed in <code>GuzzleHttp\Url::fromString</code> (previously
+it was <code>Guzzle\Http\Url::factory()</code>). If custom URL parsing is necessary,
+then developers are free to subclass <code>GuzzleHttp\Url</code>.</li>
+</ul>
+<h2 id="plugin">Plugin</h2>
+<p>The <code>Guzzle\Plugin</code> namespace has been renamed to <code>GuzzleHttp\Subscriber</code>.
+Several plugins are shipping with the core Guzzle library under this namespace.</p>
+<ul>
+<li><code>GuzzleHttp\Subscriber\Cookie</code>: Replaces the old CookiePlugin. Cookie jar
+code has moved to <code>GuzzleHttp\Cookie</code>.</li>
+<li><code>GuzzleHttp\Subscriber\History</code>: Replaces the old HistoryPlugin.</li>
+<li><code>GuzzleHttp\Subscriber\HttpError</code>: Throws errors when a bad HTTP response is
+received.</li>
+<li><code>GuzzleHttp\Subscriber\Mock</code>: Replaces the old MockPlugin.</li>
+<li><code>GuzzleHttp\Subscriber\Prepare</code>: Prepares the body of a request just before
+sending. This subscriber is attached to all requests by default.</li>
+<li><code>GuzzleHttp\Subscriber\Redirect</code>: Replaces the RedirectPlugin.</li>
+</ul>
+<p>The following plugins have been removed (third-parties are free to re-implement
+these if needed):</p>
+<ul>
+<li><code>GuzzleHttp\Plugin\Async</code> has been removed.</li>
+<li><code>GuzzleHttp\Plugin\CurlAuth</code> has been removed.</li>
+<li><code>GuzzleHttp\Plugin\ErrorResponse\ErrorResponsePlugin</code> has been removed. This
+functionality should instead be implemented with event listeners that occur
+after normal response parsing occurs in the guzzle/command package.</li>
+</ul>
+<p>The following plugins are not part of the core Guzzle package, but are provided
+in separate repositories:</p>
+<ul>
+<li><code>Guzzle\Http\Plugin\BackoffPlugin</code> has been rewritten to be much simpler
+to build custom retry policies using simple functions rather than various
+chained classes. See: <a href="https://github.com/guzzle/retry-subscriber">https://github.com/guzzle/retry-subscriber</a></li>
+<li><code>Guzzle\Http\Plugin\Cache\CachePlugin</code> has moved to
+<a href="https://github.com/guzzle/cache-subscriber">https://github.com/guzzle/cache-subscriber</a></li>
+<li><code>Guzzle\Http\Plugin\Log\LogPlugin</code> has moved to
+<a href="https://github.com/guzzle/log-subscriber">https://github.com/guzzle/log-subscriber</a></li>
+<li><code>Guzzle\Http\Plugin\Md5\Md5Plugin</code> has moved to
+<a href="https://github.com/guzzle/message-integrity-subscriber">https://github.com/guzzle/message-integrity-subscriber</a></li>
+<li><code>Guzzle\Http\Plugin\Mock\MockPlugin</code> has moved to
+<code>GuzzleHttp\Subscriber\MockSubscriber</code>.</li>
+<li><code>Guzzle\Http\Plugin\Oauth\OauthPlugin</code> has moved to
+<a href="https://github.com/guzzle/oauth-subscriber">https://github.com/guzzle/oauth-subscriber</a></li>
+</ul>
+<h2 id="service">Service</h2>
+<p>The service description layer of Guzzle has moved into two separate packages:</p>
+<ul>
+<li><a href="http://github.com/guzzle/command">http://github.com/guzzle/command</a> Provides a high level abstraction over web
+services by representing web service operations using commands.</li>
+<li><a href="http://github.com/guzzle/guzzle-services">http://github.com/guzzle/guzzle-services</a> Provides an implementation of
+guzzle/command that provides request serialization and response parsing using
+Guzzle service descriptions.</li>
+</ul>
+<h2 id="stream">Stream</h2>
+<p>Stream have moved to a separate package available at
+<a href="https://github.com/guzzle/streams">https://github.com/guzzle/streams</a>.</p>
+<p><code>Guzzle\Stream\StreamInterface</code> has been given a large update to cleanly take
+on the responsibilities of <code>Guzzle\Http\EntityBody</code> and
+<code>Guzzle\Http\EntityBodyInterface</code> now that they have been removed. The number
+of methods implemented by the <code>StreamInterface</code> has been drastically reduced to
+allow developers to more easily extend and decorate stream behavior.</p>
+<h2 id="removed-methods-from-streaminterface">Removed methods from StreamInterface</h2>
+<ul>
+<li><code>getStream</code> and <code>setStream</code> have been removed to better encapsulate streams.</li>
+<li><code>getMetadata</code> and <code>setMetadata</code> have been removed in favor of
+<code>GuzzleHttp\Stream\MetadataStreamInterface</code>.</li>
+<li><code>getWrapper</code>, <code>getWrapperData</code>, <code>getStreamType</code>, and <code>getUri</code> have all been
+removed. This data is accessible when
+using streams that implement <code>GuzzleHttp\Stream\MetadataStreamInterface</code>.</li>
+<li><code>rewind</code> has been removed. Use <code>seek(0)</code> for a similar behavior.</li>
+</ul>
+<h2 id="renamed-methods">Renamed methods</h2>
+<ul>
+<li><code>detachStream</code> has been renamed to <code>detach</code>.</li>
+<li><code>feof</code> has been renamed to <code>eof</code>.</li>
+<li><code>ftell</code> has been renamed to <code>tell</code>.</li>
+<li><code>readLine</code> has moved from an instance method to a static class method of
+<code>GuzzleHttp\Stream\Stream</code>.</li>
+</ul>
+<h2 id="metadata-streams">Metadata streams</h2>
+<p><code>GuzzleHttp\Stream\MetadataStreamInterface</code> has been added to denote streams
+that contain additional metadata accessible via <code>getMetadata()</code>.
+<code>GuzzleHttp\Stream\StreamInterface::getMetadata</code> and
+<code>GuzzleHttp\Stream\StreamInterface::setMetadata</code> have been removed.</p>
+<h2 id="streamrequestfactory">StreamRequestFactory</h2>
+<p>The entire concept of the StreamRequestFactory has been removed. The way this
+was used in Guzzle 3 broke the actual interface of sending streaming requests
+(instead of getting back a Response, you got a StreamInterface). Streaming
+PHP requests are now implemented through the <code>GuzzleHttp\Adapter\StreamAdapter</code>.</p>
+<h2 id="3-6-to-3-7">3.6 to 3.7</h2>
+<h3 id="deprecations">Deprecations</h3>
+<ul>
+<li>You can now enable E_USER_DEPRECATED warnings to see if you are using any deprecated methods.:</li>
+</ul>
+<pre><code class="lang-php">\Guzzle\Common\Version::$emitWarnings = true;
+</code></pre>
+<p>The following APIs and options have been marked as deprecated:</p>
+<ul>
+<li>Marked <code>Guzzle\Http\Message\Request::isResponseBodyRepeatable()</code> as deprecated. Use <code>$request-&gt;getResponseBody()-&gt;isRepeatable()</code> instead.</li>
+<li>Marked <code>Guzzle\Http\Message\Request::canCache()</code> as deprecated. Use <code>Guzzle\Plugin\Cache\DefaultCanCacheStrategy-&gt;canCacheRequest()</code> instead.</li>
+<li>Marked <code>Guzzle\Http\Message\Request::canCache()</code> as deprecated. Use <code>Guzzle\Plugin\Cache\DefaultCanCacheStrategy-&gt;canCacheRequest()</code> instead.</li>
+<li>Marked <code>Guzzle\Http\Message\Request::setIsRedirect()</code> as deprecated. Use the HistoryPlugin instead.</li>
+<li>Marked <code>Guzzle\Http\Message\Request::isRedirect()</code> as deprecated. Use the HistoryPlugin instead.</li>
+<li>Marked <code>Guzzle\Cache\CacheAdapterFactory::factory()</code> as deprecated</li>
+<li>Marked <code>Guzzle\Service\Client::enableMagicMethods()</code> as deprecated. Magic methods can no longer be disabled on a Guzzle\Service\Client.</li>
+<li>Marked <code>Guzzle\Parser\Url\UrlParser</code> as deprecated. Just use PHP&#39;s <code>parse_url()</code> and percent encode your UTF-8.</li>
+<li>Marked <code>Guzzle\Common\Collection::inject()</code> as deprecated.</li>
+<li>Marked <code>Guzzle\Plugin\CurlAuth\CurlAuthPlugin</code> as deprecated. Use
+<code>$client-&gt;getConfig()-&gt;setPath(&#39;request.options/auth&#39;, array(&#39;user&#39;, &#39;pass&#39;, &#39;Basic|Digest|NTLM|Any&#39;));</code> or
+<code>$client-&gt;setDefaultOption(&#39;auth&#39;, array(&#39;user&#39;, &#39;pass&#39;, &#39;Basic|Digest|NTLM|Any&#39;));</code></li>
+</ul>
+<p>3.7 introduces <code>request.options</code> as a parameter for a client configuration and as an optional argument to all creational
+request methods. When paired with a client&#39;s configuration settings, these options allow you to specify default settings
+for various aspects of a request. Because these options make other previous configuration options redundant, several
+configuration options and methods of a client and AbstractCommand have been deprecated.</p>
+<ul>
+<li>Marked <code>Guzzle\Service\Client::getDefaultHeaders()</code> as deprecated. Use <code>$client-&gt;getDefaultOption(&#39;headers&#39;)</code>.</li>
+<li>Marked <code>Guzzle\Service\Client::setDefaultHeaders()</code> as deprecated. Use <code>$client-&gt;setDefaultOption(&#39;headers/{header_name}&#39;, &#39;value&#39;)</code>.</li>
+<li>Marked &#39;request.params&#39; for <code>Guzzle\Http\Client</code> as deprecated. Use <code>$client-&gt;setDefaultOption(&#39;params/{param_name}&#39;, &#39;value&#39;)</code></li>
+<li><p>Marked &#39;command.headers&#39;, &#39;command.response_body&#39; and &#39;command.on_complete&#39; as deprecated for AbstractCommand. These will work through Guzzle 4.0</p>
+<pre><code>  $command = $client-&gt;getCommand(&#39;foo&#39;, array(
+      &#39;command.headers&#39; =&gt; array(&#39;Test&#39; =&gt; &#39;123&#39;),
+      &#39;command.response_body&#39; =&gt; &#39;/path/to/file&#39;
+  ));
+
+  // Should be changed to:
+
+  $command = $client-&gt;getCommand(&#39;foo&#39;, array(
+      &#39;command.request_options&#39; =&gt; array(
+          &#39;headers&#39; =&gt; array(&#39;Test&#39; =&gt; &#39;123&#39;),
+          &#39;save_as&#39; =&gt; &#39;/path/to/file&#39;
+      )
+  ));
+</code></pre></li>
+</ul>
+<h3 id="interface-changes">Interface changes</h3>
+<p>Additions and changes (you will need to update any implementations or subclasses you may have created):</p>
+<ul>
+<li>Added an <code>$options</code> argument to the end of the following methods of <code>Guzzle\Http\ClientInterface</code>:
+createRequest, head, delete, put, patch, post, options, prepareRequest</li>
+<li>Added an <code>$options</code> argument to the end of <code>Guzzle\Http\Message\Request\RequestFactoryInterface::createRequest()</code></li>
+<li>Added an <code>applyOptions()</code> method to <code>Guzzle\Http\Message\Request\RequestFactoryInterface</code></li>
+<li>Changed <code>Guzzle\Http\ClientInterface::get($uri = null, $headers = null, $body = null)</code> to
+<code>Guzzle\Http\ClientInterface::get($uri = null, $headers = null, $options = array())</code>. You can still pass in a
+resource, string, or EntityBody into the $options parameter to specify the download location of the response.</li>
+<li>Changed <code>Guzzle\Common\Collection::__construct($data)</code> to no longer accepts a null value for <code>$data</code> but a
+default <code>array()</code></li>
+<li>Added <code>Guzzle\Stream\StreamInterface::isRepeatable</code></li>
+<li>Made <code>Guzzle\Http\Client::expandTemplate</code> and <code>getUriTemplate</code> protected methods.</li>
+</ul>
+<p>The following methods were removed from interfaces. All of these methods are still available in the concrete classes
+that implement them, but you should update your code to use alternative methods:</p>
+<ul>
+<li>Removed <code>Guzzle\Http\ClientInterface::setDefaultHeaders(). Use</code>$client-&gt;getConfig()-&gt;setPath(&#39;request.options/headers/{header_name}&#39;, &#39;value&#39;)<code>. or</code>$client-&gt;getConfig()-&gt;setPath(&#39;request.options/headers&#39;, array(&#39;header_name&#39; =&gt; &#39;value&#39;))<code>or</code>$client-&gt;setDefaultOption(&#39;headers/{header_name}&#39;, &#39;value&#39;)<code>. or</code>$client-&gt;setDefaultOption(&#39;headers&#39;, array(&#39;header_name&#39; =&gt; &#39;value&#39;))`.</li>
+<li>Removed <code>Guzzle\Http\ClientInterface::getDefaultHeaders(). Use</code>$client-&gt;getConfig()-&gt;getPath(&#39;request.options/headers&#39;)`.</li>
+<li>Removed <code>Guzzle\Http\ClientInterface::expandTemplate()</code>. This is an implementation detail.</li>
+<li>Removed <code>Guzzle\Http\ClientInterface::setRequestFactory()</code>. This is an implementation detail.</li>
+<li>Removed <code>Guzzle\Http\ClientInterface::getCurlMulti()</code>. This is a very specific implementation detail.</li>
+<li>Removed <code>Guzzle\Http\Message\RequestInterface::canCache</code>. Use the CachePlugin.</li>
+<li>Removed <code>Guzzle\Http\Message\RequestInterface::setIsRedirect</code>. Use the HistoryPlugin.</li>
+<li>Removed <code>Guzzle\Http\Message\RequestInterface::isRedirect</code>. Use the HistoryPlugin.</li>
+</ul>
+<h3 id="cache-plugin-breaking-changes">Cache plugin breaking changes</h3>
+<ul>
+<li>CacheKeyProviderInterface and DefaultCacheKeyProvider are no longer used. All of this logic is handled in a
+CacheStorageInterface. These two objects and interface will be removed in a future version.</li>
+<li>Always setting X-cache headers on cached responses</li>
+<li>Default cache TTLs are now handled by the CacheStorageInterface of a CachePlugin</li>
+<li><code>CacheStorageInterface::cache($key, Response $response, $ttl = null)</code> has changed to <code>cache(RequestInterface
+$request, Response $response);</code></li>
+<li><code>CacheStorageInterface::fetch($key)</code> has changed to <code>fetch(RequestInterface $request);</code></li>
+<li><code>CacheStorageInterface::delete($key)</code> has changed to <code>delete(RequestInterface $request);</code></li>
+<li>Added <code>CacheStorageInterface::purge($url)</code></li>
+<li><code>DefaultRevalidation::__construct(CacheKeyProviderInterface $cacheKey, CacheStorageInterface $cache, CachePlugin
+$plugin)</code> has changed to <code>DefaultRevalidation::__construct(CacheStorageInterface $cache,
+CanCacheStrategyInterface $canCache = null)</code></li>
+<li>Added <code>RevalidationInterface::shouldRevalidate(RequestInterface $request, Response $response)</code></li>
+</ul>
+<h2 id="3-5-to-3-6">3.5 to 3.6</h2>
+<ul>
+<li>Mixed casing of headers are now forced to be a single consistent casing across all values for that header.</li>
+<li>Messages internally use a HeaderCollection object to delegate handling case-insensitive header resolution</li>
+<li>Removed the whole changedHeader() function system of messages because all header changes now go through addHeader().
+For example, setHeader() first removes the header using unset on a HeaderCollection and then calls addHeader().
+Keeping the Host header and URL host in sync is now handled by overriding the addHeader method in Request.</li>
+<li>Specific header implementations can be created for complex headers. When a message creates a header, it uses a
+HeaderFactory which can map specific headers to specific header classes. There is now a Link header and
+CacheControl header implementation.</li>
+<li>Moved getLinks() from Response to just be used on a Link header object.</li>
+</ul>
+<p>If you previously relied on Guzzle\Http\Message\Header::raw(), then you will need to update your code to use the
+HeaderInterface (e.g. toArray(), getAll(), etc.).</p>
+<h3 id="interface-changes">Interface changes</h3>
+<ul>
+<li>Removed from interface: Guzzle\Http\ClientInterface::setUriTemplate</li>
+<li>Removed from interface: Guzzle\Http\ClientInterface::setCurlMulti()</li>
+<li>Removed Guzzle\Http\Message\Request::receivedRequestHeader() and implemented this functionality in
+Guzzle\Http\Curl\RequestMediator</li>
+<li>Removed the optional $asString parameter from MessageInterface::getHeader(). Just cast the header to a string.</li>
+<li>Removed the optional $tryChunkedTransfer option from Guzzle\Http\Message\EntityEnclosingRequestInterface</li>
+<li>Removed the $asObjects argument from Guzzle\Http\Message\MessageInterface::getHeaders()</li>
+</ul>
+<h3 id="removed-deprecated-functions">Removed deprecated functions</h3>
+<ul>
+<li>Removed Guzzle\Parser\ParserRegister::get(). Use getParser()</li>
+<li>Removed Guzzle\Parser\ParserRegister::set(). Use registerParser().</li>
+</ul>
+<h3 id="deprecations">Deprecations</h3>
+<ul>
+<li>The ability to case-insensitively search for header values</li>
+<li>Guzzle\Http\Message\Header::hasExactHeader</li>
+<li>Guzzle\Http\Message\Header::raw. Use getAll()</li>
+<li>Deprecated cache control specific methods on Guzzle\Http\Message\AbstractMessage. Use the CacheControl header object
+instead.</li>
+</ul>
+<h3 id="other-changes">Other changes</h3>
+<ul>
+<li>All response header helper functions return a string rather than mixing Header objects and strings inconsistently</li>
+<li>Removed cURL blacklist support. This is no longer necessary now that Expect, Accept, etc. are managed by Guzzle
+directly via interfaces</li>
+<li>Removed the injecting of a request object onto a response object. The methods to get and set a request still exist
+but are a no-op until removed.</li>
+<li>Most classes that used to require a <code>Guzzle\Service\Command\CommandInterface</code> typehint now request a
+<code>Guzzle\Service\Command\ArrayCommandInterface</code>.</li>
+<li>Added <code>Guzzle\Http\Message\RequestInterface::startResponse()</code> to the RequestInterface to handle injecting a response
+on a request while the request is still being transferred</li>
+<li><code>Guzzle\Service\Command\CommandInterface</code> now extends from ToArrayInterface and ArrayAccess</li>
+</ul>
+<h2 id="3-3-to-3-4">3.3 to 3.4</h2>
+<p>Base URLs of a client now follow the rules of <a href="http://tools.ietf.org/html/rfc3986#section-5.2.2">http://tools.ietf.org/html/rfc3986#section-5.2.2</a> when merging URLs.</p>
+<h2 id="3-2-to-3-3">3.2 to 3.3</h2>
+<h3 id="response-getetag-quote-stripping-removed">Response::getEtag() quote stripping removed</h3>
+<p><code>Guzzle\Http\Message\Response::getEtag()</code> no longer strips quotes around the ETag response header</p>
+<h3 id="removed-guzzle-http-utils">Removed <code>Guzzle\Http\Utils</code></h3>
+<p>The <code>Guzzle\Http\Utils</code> class was removed. This class was only used for testing.</p>
+<h3 id="stream-wrapper-and-type">Stream wrapper and type</h3>
+<p><code>Guzzle\Stream\Stream::getWrapper()</code> and <code>Guzzle\Stream\Stream::getStreamType()</code> are no longer converted to lowercase.</p>
+<h3 id="curl-emit_io-became-emit_io">curl.emit_io became emit_io</h3>
+<p>Emitting IO events from a RequestMediator is now a parameter that must be set in a request&#39;s curl options using the
+&#39;emit_io&#39; key. This was previously set under a request&#39;s parameters using &#39;curl.emit_io&#39;</p>
+<h2 id="3-1-to-3-2">3.1 to 3.2</h2>
+<h3 id="curlmulti-is-no-longer-reused-globally">CurlMulti is no longer reused globally</h3>
+<p>Before 3.2, the same CurlMulti object was reused globally for each client. This can cause issue where plugins added
+to a single client can pollute requests dispatched from other clients.</p>
+<p>If you still wish to reuse the same CurlMulti object with each client, then you can add a listener to the
+ServiceBuilder&#39;s <code>service_builder.create_client</code> event to inject a custom CurlMulti object into each client as it is
+created.</p>
+<pre><code class="lang-php">$multi = new Guzzle\Http\Curl\CurlMulti();
+$builder = Guzzle\Service\Builder\ServiceBuilder::factory(&#39;/path/to/config.json&#39;);
+$builder-&gt;addListener(&#39;service_builder.create_client&#39;, function ($event) use ($multi) {
+    $event[&#39;client&#39;]-&gt;setCurlMulti($multi);
+}
+});
+</code></pre>
+<h3 id="no-default-path">No default path</h3>
+<p>URLs no longer have a default path value of &#39;/&#39; if no path was specified.</p>
+<p>Before:</p>
+<pre><code class="lang-php">$request = $client-&gt;get(&#39;http://www.foo.com&#39;);
+echo $request-&gt;getUrl();
+// &gt;&gt; http://www.foo.com/
+</code></pre>
+<p>After:</p>
+<pre><code class="lang-php">$request = $client-&gt;get(&#39;http://www.foo.com&#39;);
+echo $request-&gt;getUrl();
+// &gt;&gt; http://www.foo.com
+</code></pre>
+<h3 id="less-verbose-badresponseexception">Less verbose BadResponseException</h3>
+<p>The exception message for <code>Guzzle\Http\Exception\BadResponseException</code> no longer contains the full HTTP request and
+response information. You can, however, get access to the request and response object by calling <code>getRequest()</code> or
+<code>getResponse()</code> on the exception object.</p>
+<h3 id="query-parameter-aggregation">Query parameter aggregation</h3>
+<p>Multi-valued query parameters are no longer aggregated using a callback function. <code>Guzzle\Http\Query</code> now has a
+setAggregator() method that accepts a <code>Guzzle\Http\QueryAggregator\QueryAggregatorInterface</code> object. This object is
+responsible for handling the aggregation of multi-valued query string variables into a flattened hash.</p>
+<h2 id="2-8-to-3-x">2.8 to 3.x</h2>
+<h3 id="guzzle-service-inspector">Guzzle\Service\Inspector</h3>
+<p>Change <code>\Guzzle\Service\Inspector::fromConfig</code> to <code>\Guzzle\Common\Collection::fromConfig</code></p>
+<p><strong>Before</strong></p>
+<pre><code class="lang-php">use Guzzle\Service\Inspector;
+
+class YourClient extends \Guzzle\Service\Client
+{
+    public static function factory($config = array())
+    {
+        $default = array();
+        $required = array(&#39;base_url&#39;, &#39;username&#39;, &#39;api_key&#39;);
+        $config = Inspector::fromConfig($config, $default, $required);
+
+        $client = new self(
+            $config-&gt;get(&#39;base_url&#39;),
+            $config-&gt;get(&#39;username&#39;),
+            $config-&gt;get(&#39;api_key&#39;)
+        );
+        $client-&gt;setConfig($config);
+
+        $client-&gt;setDescription(ServiceDescription::factory(__DIR__ . DIRECTORY_SEPARATOR . &#39;client.json&#39;));
+
+        return $client;
+    }
+</code></pre>
+<p><strong>After</strong></p>
+<pre><code class="lang-php">use Guzzle\Common\Collection;
+
+class YourClient extends \Guzzle\Service\Client
+{
+    public static function factory($config = array())
+    {
+        $default = array();
+        $required = array(&#39;base_url&#39;, &#39;username&#39;, &#39;api_key&#39;);
+        $config = Collection::fromConfig($config, $default, $required);
+
+        $client = new self(
+            $config-&gt;get(&#39;base_url&#39;),
+            $config-&gt;get(&#39;username&#39;),
+            $config-&gt;get(&#39;api_key&#39;)
+        );
+        $client-&gt;setConfig($config);
+
+        $client-&gt;setDescription(ServiceDescription::factory(__DIR__ . DIRECTORY_SEPARATOR . &#39;client.json&#39;));
+
+        return $client;
+    }
+</code></pre>
+<h3 id="convert-xml-service-descriptions-to-json">Convert XML Service Descriptions to JSON</h3>
+<p><strong>Before</strong></p>
+<pre><code class="lang-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;client&gt;
+    &lt;commands&gt;
+        &lt;!-- Groups --&gt;
+        &lt;command name=&quot;list_groups&quot; method=&quot;GET&quot; uri=&quot;groups.json&quot;&gt;
+            &lt;doc&gt;Get a list of groups&lt;/doc&gt;
+        &lt;/command&gt;
+        &lt;command name=&quot;search_groups&quot; method=&quot;GET&quot; uri=&#39;search.json?query=&quot;{{query}} type:group&quot;&#39;&gt;
+            &lt;doc&gt;Uses a search query to get a list of groups&lt;/doc&gt;
+            &lt;param name=&quot;query&quot; type=&quot;string&quot; required=&quot;true&quot; /&gt;
+        &lt;/command&gt;
+        &lt;command name=&quot;create_group&quot; method=&quot;POST&quot; uri=&quot;groups.json&quot;&gt;
+            &lt;doc&gt;Create a group&lt;/doc&gt;
+            &lt;param name=&quot;data&quot; type=&quot;array&quot; location=&quot;body&quot; filters=&quot;json_encode&quot; doc=&quot;Group JSON&quot;/&gt;
+            &lt;param name=&quot;Content-Type&quot; location=&quot;header&quot; static=&quot;application/json&quot;/&gt;
+        &lt;/command&gt;
+        &lt;command name=&quot;delete_group&quot; method=&quot;DELETE&quot; uri=&quot;groups/{{id}}.json&quot;&gt;
+            &lt;doc&gt;Delete a group by ID&lt;/doc&gt;
+            &lt;param name=&quot;id&quot; type=&quot;integer&quot; required=&quot;true&quot;/&gt;
+        &lt;/command&gt;
+        &lt;command name=&quot;get_group&quot; method=&quot;GET&quot; uri=&quot;groups/{{id}}.json&quot;&gt;
+            &lt;param name=&quot;id&quot; type=&quot;integer&quot; required=&quot;true&quot;/&gt;
+        &lt;/command&gt;
+        &lt;command name=&quot;update_group&quot; method=&quot;PUT&quot; uri=&quot;groups/{{id}}.json&quot;&gt;
+            &lt;doc&gt;Update a group&lt;/doc&gt;
+            &lt;param name=&quot;id&quot; type=&quot;integer&quot; required=&quot;true&quot;/&gt;
+            &lt;param name=&quot;data&quot; type=&quot;array&quot; location=&quot;body&quot; filters=&quot;json_encode&quot; doc=&quot;Group JSON&quot;/&gt;
+            &lt;param name=&quot;Content-Type&quot; location=&quot;header&quot; static=&quot;application/json&quot;/&gt;
+        &lt;/command&gt;
+    &lt;/commands&gt;
+&lt;/client&gt;
+</code></pre>
+<p><strong>After</strong></p>
+<pre><code class="lang-json">{
+    &quot;name&quot;:       &quot;Zendesk REST API v2&quot;,
+    &quot;apiVersion&quot;: &quot;2012-12-31&quot;,
+    &quot;description&quot;:&quot;Provides access to Zendesk views, groups, tickets, ticket fields, and users&quot;,
+    &quot;operations&quot;: {
+        &quot;list_groups&quot;:  {
+            &quot;httpMethod&quot;:&quot;GET&quot;,
+            &quot;uri&quot;:       &quot;groups.json&quot;,
+            &quot;summary&quot;:   &quot;Get a list of groups&quot;
+        },
+        &quot;search_groups&quot;:{
+            &quot;httpMethod&quot;:&quot;GET&quot;,
+            &quot;uri&quot;:       &quot;search.json?query=\&quot;{query} type:group\&quot;&quot;,
+            &quot;summary&quot;:   &quot;Uses a search query to get a list of groups&quot;,
+            &quot;parameters&quot;:{
+                &quot;query&quot;:{
+                    &quot;location&quot;:   &quot;uri&quot;,
+                    &quot;description&quot;:&quot;Zendesk Search Query&quot;,
+                    &quot;type&quot;:       &quot;string&quot;,
+                    &quot;required&quot;:   true
+                }
+            }
+        },
+        &quot;create_group&quot;: {
+            &quot;httpMethod&quot;:&quot;POST&quot;,
+            &quot;uri&quot;:       &quot;groups.json&quot;,
+            &quot;summary&quot;:   &quot;Create a group&quot;,
+            &quot;parameters&quot;:{
+                &quot;data&quot;:        {
+                    &quot;type&quot;:       &quot;array&quot;,
+                    &quot;location&quot;:   &quot;body&quot;,
+                    &quot;description&quot;:&quot;Group JSON&quot;,
+                    &quot;filters&quot;:    &quot;json_encode&quot;,
+                    &quot;required&quot;:   true
+                },
+                &quot;Content-Type&quot;:{
+                    &quot;type&quot;:    &quot;string&quot;,
+                    &quot;location&quot;:&quot;header&quot;,
+                    &quot;static&quot;:  &quot;application/json&quot;
+                }
+            }
+        },
+        &quot;delete_group&quot;: {
+            &quot;httpMethod&quot;:&quot;DELETE&quot;,
+            &quot;uri&quot;:       &quot;groups/{id}.json&quot;,
+            &quot;summary&quot;:   &quot;Delete a group&quot;,
+            &quot;parameters&quot;:{
+                &quot;id&quot;:{
+                    &quot;location&quot;:   &quot;uri&quot;,
+                    &quot;description&quot;:&quot;Group to delete by ID&quot;,
+                    &quot;type&quot;:       &quot;integer&quot;,
+                    &quot;required&quot;:   true
+                }
+            }
+        },
+        &quot;get_group&quot;:    {
+            &quot;httpMethod&quot;:&quot;GET&quot;,
+            &quot;uri&quot;:       &quot;groups/{id}.json&quot;,
+            &quot;summary&quot;:   &quot;Get a ticket&quot;,
+            &quot;parameters&quot;:{
+                &quot;id&quot;:{
+                    &quot;location&quot;:   &quot;uri&quot;,
+                    &quot;description&quot;:&quot;Group to get by ID&quot;,
+                    &quot;type&quot;:       &quot;integer&quot;,
+                    &quot;required&quot;:   true
+                }
+            }
+        },
+        &quot;update_group&quot;: {
+            &quot;httpMethod&quot;:&quot;PUT&quot;,
+            &quot;uri&quot;:       &quot;groups/{id}.json&quot;,
+            &quot;summary&quot;:   &quot;Update a group&quot;,
+            &quot;parameters&quot;:{
+                &quot;id&quot;:          {
+                    &quot;location&quot;:   &quot;uri&quot;,
+                    &quot;description&quot;:&quot;Group to update by ID&quot;,
+                    &quot;type&quot;:       &quot;integer&quot;,
+                    &quot;required&quot;:   true
+                },
+                &quot;data&quot;:        {
+                    &quot;type&quot;:       &quot;array&quot;,
+                    &quot;location&quot;:   &quot;body&quot;,
+                    &quot;description&quot;:&quot;Group JSON&quot;,
+                    &quot;filters&quot;:    &quot;json_encode&quot;,
+                    &quot;required&quot;:   true
+                },
+                &quot;Content-Type&quot;:{
+                    &quot;type&quot;:    &quot;string&quot;,
+                    &quot;location&quot;:&quot;header&quot;,
+                    &quot;static&quot;:  &quot;application/json&quot;
+                }
+            }
+        }
+}
+</code></pre>
+<h3 id="guzzle-service-description-servicedescription">Guzzle\Service\Description\ServiceDescription</h3>
+<p>Commands are now called Operations</p>
+<p><strong>Before</strong></p>
+<pre><code class="lang-php">use Guzzle\Service\Description\ServiceDescription;
+
+$sd = new ServiceDescription();
+$sd-&gt;getCommands();     // @returns ApiCommandInterface[]
+$sd-&gt;hasCommand($name);
+$sd-&gt;getCommand($name); // @returns ApiCommandInterface|null
+$sd-&gt;addCommand($command); // @param ApiCommandInterface $command
+</code></pre>
+<p><strong>After</strong></p>
+<pre><code class="lang-php">use Guzzle\Service\Description\ServiceDescription;
+
+$sd = new ServiceDescription();
+$sd-&gt;getOperations();           // @returns OperationInterface[]
+$sd-&gt;hasOperation($name);
+$sd-&gt;getOperation($name);       // @returns OperationInterface|null
+$sd-&gt;addOperation($operation);  // @param OperationInterface $operation
+</code></pre>
+<h3 id="guzzle-common-inflection-inflector">Guzzle\Common\Inflection\Inflector</h3>
+<p>Namespace is now <code>Guzzle\Inflection\Inflector</code></p>
+<h3 id="guzzle-http-plugin">Guzzle\Http\Plugin</h3>
+<p>Namespace is now <code>Guzzle\Plugin</code>. Many other changes occur within this namespace and are detailed in their own sections below.</p>
+<h3 id="guzzle-http-plugin-logplugin-and-guzzle-common-log">Guzzle\Http\Plugin\LogPlugin and Guzzle\Common\Log</h3>
+<p>Now <code>Guzzle\Plugin\Log\LogPlugin</code> and <code>Guzzle\Log</code> respectively.</p>
+<p><strong>Before</strong></p>
+<pre><code class="lang-php">use Guzzle\Common\Log\ClosureLogAdapter;
+use Guzzle\Http\Plugin\LogPlugin;
+
+/** @var \Guzzle\Http\Client */
+$client;
+
+// $verbosity is an integer indicating desired message verbosity level
+$client-&gt;addSubscriber(new LogPlugin(new ClosureLogAdapter(function($m) { echo $m; }, $verbosity = LogPlugin::LOG_VERBOSE);
+</code></pre>
+<p><strong>After</strong></p>
+<pre><code class="lang-php">use Guzzle\Log\ClosureLogAdapter;
+use Guzzle\Log\MessageFormatter;
+use Guzzle\Plugin\Log\LogPlugin;
+
+/** @var \Guzzle\Http\Client */
+$client;
+
+// $format is a string indicating desired message format -- @see MessageFormatter
+$client-&gt;addSubscriber(new LogPlugin(new ClosureLogAdapter(function($m) { echo $m; }, $format = MessageFormatter::DEBUG_FORMAT);
+</code></pre>
+<h3 id="guzzle-http-plugin-curlauthplugin">Guzzle\Http\Plugin\CurlAuthPlugin</h3>
+<p>Now <code>Guzzle\Plugin\CurlAuth\CurlAuthPlugin</code>.</p>
+<h3 id="guzzle-http-plugin-exponentialbackoffplugin">Guzzle\Http\Plugin\ExponentialBackoffPlugin</h3>
+<p>Now <code>Guzzle\Plugin\Backoff\BackoffPlugin</code>, and other changes.</p>
+<p><strong>Before</strong></p>
+<pre><code class="lang-php">use Guzzle\Http\Plugin\ExponentialBackoffPlugin;
+
+$backoffPlugin = new ExponentialBackoffPlugin($maxRetries, array_merge(
+        ExponentialBackoffPlugin::getDefaultFailureCodes(), array(429)
+    ));
+
+$client-&gt;addSubscriber($backoffPlugin);
+</code></pre>
+<p><strong>After</strong></p>
+<pre><code class="lang-php">use Guzzle\Plugin\Backoff\BackoffPlugin;
+use Guzzle\Plugin\Backoff\HttpBackoffStrategy;
+
+// Use convenient factory method instead -- see implementation for ideas of what
+// you can do with chaining backoff strategies
+$backoffPlugin = BackoffPlugin::getExponentialBackoff($maxRetries, array_merge(
+        HttpBackoffStrategy::getDefaultFailureCodes(), array(429)
+    ));
+$client-&gt;addSubscriber($backoffPlugin);
+</code></pre>
+<h3 id="known-issues">Known Issues</h3>
+<h4 id="-bug-accept-encoding-header-behavior-changed-unintentionally-">[BUG] Accept-Encoding header behavior changed unintentionally.</h4>
+<p>(See #217) (Fixed in 09daeb8c666fb44499a0646d655a8ae36456575e)</p>
+<p>In version 2.8 setting the <code>Accept-Encoding</code> header would set the CURLOPT_ENCODING option, which permitted cURL to
+properly handle gzip/deflate compressed responses from the server. In versions affected by this bug this does not happen.
+See issue #217 for a workaround, or use a version containing the fix.</p>
+
+      </body>
+    </html>

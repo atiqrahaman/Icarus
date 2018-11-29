@@ -1,0 +1,162 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>README.md</title>
+      </head>
+      <body>
+        <p><a href="https://packagist.org/packages/wikimedia/composer-merge-plugin"><img src="https://img.shields.io/packagist/v/wikimedia/composer-merge-plugin.svg?style=flat" alt="Latest Stable Version"></a> <a href="https://github.com/wikimedia/composer-merge-plugin/blob/master/LICENSE"><img src="https://img.shields.io/packagist/l/wikimedia/composer-merge-plugin.svg?style=flat" alt="License"></a>
+<a href="https://travis-ci.org/wikimedia/composer-merge-plugin"><img src="https://img.shields.io/travis/wikimedia/composer-merge-plugin.svg?style=flat" alt="Build Status"></a>
+<a href="https://scrutinizer-ci.com/g/wikimedia/composer-merge-plugin/?branch=master"><img src="https://img.shields.io/scrutinizer/coverage/g/wikimedia/composer-merge-plugin/master.svg?style=flat" alt="Code Coverage"></a></p>
+<h1 id="composer-merge-plugin">Composer Merge Plugin</h1>
+<p>Merge multiple composer.json files at <a href="https://getcomposer.org/">Composer</a> runtime.</p>
+<p>Composer Merge Plugin is intended to allow easier dependency management for
+applications which ship a composer.json file and expect some deployments to
+install additional Composer managed libraries. It does this by allowing the
+application&#39;s top level <code>composer.json</code> file to provide a list of optional
+additional configuration files. When Composer is run it will parse these files
+and merge their configuration settings into the base configuration. This
+combined configuration will then be used when downloading additional libraries
+and generating the autoloader.</p>
+<p>Composer Merge Plugin was created to help with installation of <a href="https://www.mediawiki.org/wiki/MediaWiki">MediaWiki</a>
+which has core library requirements as well as optional libraries and
+extensions which may be managed via Composer.</p>
+<h2 id="installation">Installation</h2>
+<p>Composer Merge Plugin requires <a href="https://getcomposer.org/">Composer 1.0.0</a> or
+newer.</p>
+<pre><code>$ composer require wikimedia/composer-merge-plugin
+</code></pre><h2 id="usage">Usage</h2>
+<pre><code class="lang-json">{
+    &quot;require&quot;: {
+        &quot;wikimedia/composer-merge-plugin&quot;: &quot;dev-master&quot;
+    },
+    &quot;extra&quot;: {
+        &quot;merge-plugin&quot;: {
+            &quot;include&quot;: [
+                &quot;composer.local.json&quot;,
+                &quot;extensions/*/composer.json&quot;
+            ],
+            &quot;require&quot;: [
+                &quot;submodule/composer.json&quot;
+            ],
+            &quot;recurse&quot;: true,
+            &quot;replace&quot;: false,
+            &quot;ignore-duplicates&quot;: false,
+            &quot;merge-dev&quot;: true,
+            &quot;merge-extra&quot;: false,
+            &quot;merge-extra-deep&quot;: false,
+            &quot;merge-scripts&quot;: false
+        }
+    }
+}
+</code></pre>
+<h2 id="plugin-configuration">Plugin configuration</h2>
+<p>The plugin reads its configuration from the <code>merge-plugin</code> section of your
+composer.json&#39;s <code>extra</code> section. An <code>include</code> setting is required to tell
+Composer Merge Plugin which file(s) to merge.</p>
+<h3 id="include">include</h3>
+<p>The <code>include</code> setting can specify either a single value or an array of values.
+Each value is treated as a PHP <code>glob()</code> pattern identifying additional
+composer.json style configuration files to merge into the root package
+configuration for the current Composer execution.</p>
+<p>The following sections of the found configuration files will be merged into
+the Composer root package configuration as though they were directly included
+in the top-level composer.json file:</p>
+<ul>
+<li><a href="https://getcomposer.org/doc/04-schema.md#autoload">autoload</a></li>
+<li><a href="https://getcomposer.org/doc/04-schema.md#autoload-dev">autoload-dev</a>
+(optional, see <a href="#merge-dev">merge-dev</a> below)</li>
+<li><a href="https://getcomposer.org/doc/04-schema.md#conflict">conflict</a></li>
+<li><a href="https://getcomposer.org/doc/04-schema.md#provide">provide</a></li>
+<li><a href="https://getcomposer.org/doc/04-schema.md#replace">replace</a></li>
+<li><a href="https://getcomposer.org/doc/04-schema.md#repositories">repositories</a></li>
+<li><a href="https://getcomposer.org/doc/04-schema.md#require">require</a></li>
+<li><a href="https://getcomposer.org/doc/04-schema.md#require-dev">require-dev</a>
+(optional, see <a href="#merge-dev">merge-dev</a> below)</li>
+<li><a href="https://getcomposer.org/doc/04-schema.md#suggest">suggest</a></li>
+<li><a href="https://getcomposer.org/doc/04-schema.md#extra">extra</a>
+(optional, see <a href="#merge-extra">merge-extra</a> below)</li>
+<li><a href="https://getcomposer.org/doc/04-schema.md#scripts">scripts</a>
+(optional, see <a href="#merge-scripts">merge-scripts</a> below)</li>
+</ul>
+<h3 id="require">require</h3>
+<p>The <code>require</code> setting is identical to <a href="#include"><code>include</code></a> except when
+a pattern fails to match at least one file then it will cause an error.</p>
+<h3 id="recurse">recurse</h3>
+<p>By default the merge plugin is recursive; if an included file has
+a <code>merge-plugin</code> section it will also be processed. This functionality can be
+disabled by adding a <code>&quot;recurse&quot;: false</code> setting.</p>
+<h3 id="replace">replace</h3>
+<p>By default, Composer&#39;s conflict resolution engine is used to determine which
+version of a package should be installed when multiple files specify the same
+package. A <code>&quot;replace&quot;: true</code> setting can be provided to change to a &quot;last
+version specified wins&quot; conflict resolution strategy. In this mode, duplicate
+package declarations found in merged files will overwrite the declarations
+made by earlier files. Files are loaded in the order specified by the
+<code>include</code> setting with globbed files being processed in alphabetical order.</p>
+<h3 id="ignore-duplicates">ignore-duplicates</h3>
+<p>By default, Composer&#39;s conflict resolution engine is used to determine which
+version of a package should be installed when multiple files specify the same
+package. An <code>&quot;ignore-duplicates&quot;: true</code> setting can be provided to change to
+a &quot;first version specified wins&quot; conflict resolution strategy. In this mode,
+duplicate package declarations found in merged files will be ignored in favor
+of the declarations made by earlier files. Files are loaded in the order
+specified by the <code>include</code> setting with globbed files being processed in
+alphabetical order.</p>
+<p>Note: <code>&quot;replace&quot;: true</code> and <code>&quot;ignore-duplicates&quot;: true</code> modes are mutually
+exclusive. If both are set, <code>&quot;ignore-duplicates&quot;: true</code> will be used.</p>
+<h3 id="merge-dev">merge-dev</h3>
+<p>By default, <code>autoload-dev</code> and <code>require-dev</code> sections of included files are
+merged. A <code>&quot;merge-dev&quot;: false</code> setting will disable this behavior.</p>
+<h3 id="merge-extra">merge-extra</h3>
+<p>A <code>&quot;merge-extra&quot;: true</code> setting enables the merging the contents of the
+<code>extra</code> section of included files as well. The normal merge mode for the extra
+section is to accept the first version of any key found (e.g. a key in the
+master config wins over the version found in any imported config). If
+<code>replace</code> mode is active (<a href="#replace">see above</a>) then this behavior changes
+and the last key found will win (e.g. the key in the master config is replaced
+by the key in the imported config). If <code>&quot;merge-extra-deep&quot;: true</code> is specified
+then, the sections are merged similar to array_merge_recursive() - however
+duplicate string array keys are replaced instead of merged, while numeric
+array keys are merged as usual. The usefulness of merging the extra section
+will vary depending on the Composer plugins being used and the order in which
+they are processed by Composer.</p>
+<p>Note that <code>merge-plugin</code> sections are excluded from the merge process, but are
+always processed by the plugin unless <a href="#recurse">recursion</a> is disabled.</p>
+<h3 id="merge-scripts">merge-scripts</h3>
+<p>A <code>&quot;merge-scripts&quot;: true</code> setting enables merging the contents of the
+<code>scripts</code> section of included files as well. The normal merge mode for the
+scripts section is to accept the first version of any key found (e.g. a key in
+the master config wins over the version found in any imported config). If
+<code>replace</code> mode is active (<a href="#replace">see above</a>) then this behavior changes
+and the last key found will win (e.g. the key in the master config is replaced
+by the key in the imported config).</p>
+<p>Note: <a href="https://getcomposer.org/doc/articles/scripts.md#writing-custom-commands">custom commands</a> added by merged configuration will work when invoked
+as <code>composer run-script my-cool-command</code> but will not be available using the
+normal <code>composer my-cool-command</code> shortcut.</p>
+<h2 id="running-tests">Running tests</h2>
+<pre><code>$ composer install
+$ composer test
+</code></pre><h2 id="contributing">Contributing</h2>
+<p>Bug, feature requests and other issues should be reported to the <a href="https://github.com/wikimedia/composer-merge-plugin">GitHub
+project</a>. We accept code and documentation contributions via Pull Requests on
+GitHub as well.</p>
+<ul>
+<li><a href="https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md">PSR-2 Coding Standard</a> is used by the project. The included test
+configuration uses <a href="http://pear.php.net/package/PHP_CodeSniffer">PHP Code Sniffer</a> to validate the conventions.</li>
+<li>Tests are encouraged. Our test coverage isn&#39;t perfect but we&#39;d like it to
+get better rather than worse, so please try to include tests with your
+changes.</li>
+<li>Keep the documentation up to date. Make sure <code>README.md</code> and other
+relevant documentation is kept up to date with your changes.</li>
+<li>One pull request per feature. Try to keep your changes focused on solving
+a single problem. This will make it easier for us to review the change and
+easier for you to make sure you have updated the necessary tests and
+documentation.</li>
+</ul>
+<h2 id="license">License</h2>
+<p>Composer Merge plugin is licensed under the MIT license. See the
+<a href="LICENSE"><code>LICENSE</code></a> file for more details.</p>
+<hr>
+
+      </body>
+    </html>

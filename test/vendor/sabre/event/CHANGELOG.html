@@ -1,0 +1,71 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>CHANGELOG.md</title>
+      </head>
+      <body>
+        <h1 id="changelog">ChangeLog</h1>
+<h2 id="3-0-0-2015-11-05-">3.0.0 (2015-11-05)</h2>
+<ul>
+<li>Now requires PHP 5.5!</li>
+<li><code>Promise::all()</code> is moved to <code>Promise\all()</code>.</li>
+<li>Aside from the <code>Promise\all()</code> function, there&#39;s now also <code>Promise\race()</code>.</li>
+<li><code>Promise\reject()</code> and <code>Promise\resolve()</code> have also been added.</li>
+<li>Now 100% compatible with the Ecmascript 6 Promise.</li>
+</ul>
+<h2 id="3-0-0-alpha1-2015-10-23-">3.0.0-alpha1 (2015-10-23)</h2>
+<ul>
+<li>This package now requires PHP 5.5.</li>
+<li>#26: Added an event loop implementation. Also knows as the Reactor Pattern.</li>
+<li>Renamed <code>Promise::error</code> to <code>Promise::otherwise</code> to be consistent with
+ReactPHP and Guzzle. The <code>error</code> method is kept for BC but will be removed
+in a future version.</li>
+<li>#27: Support for Promise-based coroutines via the <code>Sabre\Event\coroutine</code>
+function.</li>
+<li>BC Break: Promises now use the EventLoop to run &quot;then&quot;-events in a separate
+execution context. In practise that means you need to run the event loop to
+wait for any <code>then</code>/<code>otherwise</code> callbacks to trigger.</li>
+<li>Promises now have a <code>wait()</code> method. Allowing you to make a promise
+synchronous and simply wait for a result (or exception) to happen.</li>
+</ul>
+<h2 id="2-0-2-2015-05-19-">2.0.2 (2015-05-19)</h2>
+<ul>
+<li>This release has no functional changes. It&#39;s just been brought up to date
+with the latest coding standards.</li>
+</ul>
+<h2 id="2-0-1-2014-10-06-">2.0.1 (2014-10-06)</h2>
+<ul>
+<li>Fixed: <code>$priority</code> was ignored in <code>EventEmitter::once</code> method.</li>
+<li>Fixed: Breaking the event chain was not possible in <code>EventEmitter::once</code>.</li>
+</ul>
+<h2 id="2-0-0-2014-06-21-">2.0.0 (2014-06-21)</h2>
+<ul>
+<li>Added: When calling emit, it&#39;s now possible to specify a callback that will be
+triggered after each method handled. This is dubbed the &#39;continueCallback&#39; and
+can be used to implement strategy patterns.</li>
+<li>Added: Promise object!</li>
+<li>Changed: EventEmitter::listeners now returns just the callbacks for an event,
+and no longer returns the list by reference. The list is now automatically
+sorted by priority.</li>
+<li>Update: Speed improvements.</li>
+<li>Updated: It&#39;s now possible to remove all listeners for every event.</li>
+<li>Changed: Now uses psr-4 autoloading.</li>
+</ul>
+<h2 id="1-0-1-2014-06-12-">1.0.1 (2014-06-12)</h2>
+<ul>
+<li>hhvm compatible!</li>
+<li>Fixed: Issue #4. Compatiblitiy for PHP &lt; 5.4.14.</li>
+</ul>
+<h2 id="1-0-0-2013-07-19-">1.0.0 (2013-07-19)</h2>
+<ul>
+<li>Added: removeListener, removeAllListeners</li>
+<li>Added: once, to only listen to an event emitting once.</li>
+<li>Added README.md.</li>
+</ul>
+<h2 id="0-0-1-alpha-2013-06-29-">0.0.1-alpha (2013-06-29)</h2>
+<ul>
+<li>First version!</li>
+</ul>
+
+      </body>
+    </html>

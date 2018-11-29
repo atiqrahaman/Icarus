@@ -1,0 +1,52 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>CHANGELOG.md</title>
+      </head>
+      <body>
+        <h1 id="changelog">ChangeLog</h1>
+<h2 id="1-2-1-2017-02-20-">1.2.1 (2017-02-20)</h2>
+<ul>
+<li>#16: Correctly parse urls that are only a fragment <code>#</code>.</li>
+</ul>
+<h2 id="1-2-0-2016-12-06-">1.2.0 (2016-12-06)</h2>
+<ul>
+<li>Now throwing <code>InvalidUriException</code> if a uri passed to the <code>parse</code> function
+is invalid or could not be parsed.</li>
+<li>#11: Fix support for URIs that start with a triple slash. PHP&#39;s <code>parse_uri()</code>
+doesn&#39;t support them, so we now have a pure-php fallback in case it fails.</li>
+<li>#9: Fix support for relative URI&#39;s that have a non-uri encoded colon <code>:</code> in
+them.</li>
+</ul>
+<h2 id="1-1-1-2016-10-27-">1.1.1 (2016-10-27)</h2>
+<ul>
+<li>#10: Correctly support file:// URIs in the build() method. (@yuloh)</li>
+</ul>
+<h2 id="1-1-0-2016-03-07-">1.1.0 (2016-03-07)</h2>
+<ul>
+<li>#6: PHP&#39;s <code>parse_url()</code> corrupts strings if they contain certain
+non ascii-characters such as Chinese or Hebrew. sabre/uri&#39;s <code>parse()</code>
+function now percent-encodes these characters beforehand.</li>
+</ul>
+<h2 id="1-0-1-2015-04-28-">1.0.1 (2015-04-28)</h2>
+<ul>
+<li>#4: Using php-cs-fixer to automatically enforce conding standards.</li>
+<li>#5: Resolving to and building <code>mailto:</code> urls were not correctly handled.</li>
+</ul>
+<h2 id="1-0-0-2015-01-27-">1.0.0 (2015-01-27)</h2>
+<ul>
+<li>Added a <code>normalize</code> function.</li>
+<li>Added a <code>buildUri</code> function.</li>
+<li>Fixed a bug in the <code>resolve</code> when only a new fragment is specified.</li>
+</ul>
+<p>San José, CalConnect XXXII release!</p>
+<h2 id="0-0-1-2014-11-17-">0.0.1 (2014-11-17)</h2>
+<ul>
+<li>First version!</li>
+<li>Source was lifted from sabre/http package.</li>
+<li>Provides a <code>resolve</code> and a <code>split</code> function.</li>
+<li>Requires PHP 5.4.8 and up.</li>
+</ul>
+
+      </body>
+    </html>

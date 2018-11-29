@@ -1,0 +1,152 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>README.md</title>
+      </head>
+      <body>
+        <h1 id="php-compatibility-coding-standard-for-php-codesniffer">PHP Compatibility Coding Standard for PHP CodeSniffer</h1>
+<p><a href="https://packagist.org/packages/wimg/php-compatibility"><img src="https://poser.pugx.org/wimg/php-compatibility/v/stable.png" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/wimg/php-compatibility"><img src="https://poser.pugx.org/wimg/php-compatibility/v/unstable.png" alt="Latest Unstable Version"></a>
+<img src="https://img.shields.io/badge/awesome%3F-yes!-brightgreen.svg" alt="Awesome">
+<a href="https://github.com/wimg/PHPCompatibility/blob/master/LICENSE"><img src="https://poser.pugx.org/wimg/php-compatibility/license.png" alt="License"></a>
+<a href="https://flattr.com/submit/auto?user_id=wimg&amp;url=https://github.com/wimg/PHPCompatibility&amp;title=PHPCompatibility&amp;language=&amp;tags=github&amp;category=software"><img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this git repo"></a></p>
+<p><a href="https://travis-ci.org/wimg/PHPCompatibility"><img src="https://travis-ci.org/wimg/PHPCompatibility.png?branch=master" alt="Build Status"></a>
+<a href="https://scrutinizer-ci.com/g/wimg/PHPCompatibility/"><img src="https://scrutinizer-ci.com/g/wimg/PHPCompatibility/badges/quality-score.png?b=master" alt="Scrutinizer Code Quality"></a>
+<a href="https://coveralls.io/github/wimg/PHPCompatibility?branch=master"><img src="https://coveralls.io/repos/github/wimg/PHPCompatibility/badge.svg?branch=master" alt="Coverage Status"></a>
+<a href="https://www.versioneye.com/php/wimg:php-compatibility"><img src="https://www.versioneye.com/php/wimg:php-compatibility/badge" alt="Dependency Status"></a></p>
+<p><a href="http://php-eye.com/package/wimg/php-compatibility"><img src="http://php-eye.com/badge/wimg/php-compatibility/tested.svg?branch=dev-master" alt="Tested Runtime Badge"></a>
+<a href="http://php-eye.com/package/wimg/php-compatibility"><img src="http://php-eye.com/badge/wimg/php-compatibility/not-tested.svg?branch=dev-master" alt="Not Tested Runtime Badge"></a></p>
+<p>This is a set of sniffs for <a href="http://pear.php.net/PHP_CodeSniffer">PHP CodeSniffer</a> that checks for PHP version compatibility.
+It will allow you to analyse your code for compatibility with higher and lower versions of PHP. </p>
+<h2 id="php-version-support">PHP Version Support</h2>
+<p>The project aims to cover all PHP compatibility changes introduced since PHP 5.0 up to the latest PHP release. This is an ongoing process and coverage is not yet 100% (if, indeed, it ever could be). Progress is tracked on <a href="https://github.com/wimg/PHPCompatibility/issues">our Github issue tracker</a>.</p>
+<p>Pull requests that check for compatibility issues in PHP 4 code - in particular between PHP 4 and PHP 5.0 - are very welcome as there are still situations where people need help upgrading legacy systems. However, coverage for changes introduced before PHP 5.1 will remain patchy as sniffs for this are not actively being developed at this time.</p>
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li>PHP 5.3+ for use with PHP CodeSniffer 1.x and 2.x.</li>
+<li>PHP 5.4+ for use with PHP CodeSniffer 3.x.</li>
+</ul>
+<p>PHP CodeSniffer: 1.5.6, 2.2.0+ or 3.0.2+.</p>
+<p>The sniffs are designed to give the same results regardless of which PHP version you are using to run PHP CodeSniffer. You should get reasonably consistent results independently of the PHP version used in your test environment, though for the best results it is recommended to run the sniffs on PHP 5.4 or higher.</p>
+<p>PHP CodeSniffer 1.5.6 is required for 90% of the sniffs, PHP CodeSniffer 2.6.0 or later is required for full support, notices may be thrown on older versions.</p>
+<p>As of version 8.0.0, the PHPCompatibility standard can also be used with PHP CodeSniffer 3.x.</p>
+<h2 id="thank-you">Thank you</h2>
+<p>Thanks to all <a href="https://github.com/wimg/PHPCompatibility/graphs/contributors">contributors</a> for their valuable contributions.</p>
+<p><a href="https://wpengine.com"><img src="https://cu.be/img/wpengine.png" alt="WPEngine"></a></p>
+<p>Thanks to <a href="https://wpengine.com">WP Engine</a> for their support on the PHP 7.0 sniffs.</p>
+<h2 id="-warning-upgrading-to-phpcompatibility-8-0-0-warning-">:warning: Upgrading to PHPCompatibility 8.0.0 :warning:</h2>
+<p>As of version 8.0.0, the installation instructions have changed. For most users, this means they will have to run a one-time-only extra command, make a change to their Composer configuration and/or adjust their build scripts.</p>
+<p>Please read the changelog for version <a href="https://github.com/wimg/PHPCompatibility/releases/tag/8.0.0">8.0.0</a> carefully before upgrading.</p>
+<h2 id="installation-in-a-composer-project-method-1-">Installation in a Composer project (method 1)</h2>
+<ul>
+<li>Add the following lines to the <code>require-dev</code> section of your <code>composer.json</code> file.<pre><code class="lang-json">  &quot;require-dev&quot;: {
+      &quot;squizlabs/php_codesniffer&quot;: &quot;^2.2 || ^3.0.2&quot;,
+      &quot;wimg/php-compatibility&quot;: &quot;*&quot;
+  },
+  &quot;prefer-stable&quot; : true
+</code></pre>
+</li>
+<li><p>Next, PHP CodeSniffer has to be informed of the location of the standard.</p>
+<ul>
+<li>If PHPCompatibility is the <strong><em>only</em></strong> external PHP CodeSniffer standard you use, you can add the following to your <code>composer.json</code> file to automatically run the necessary command:<pre><code class="lang-json">  &quot;scripts&quot;: {
+      &quot;post-install-cmd&quot;: &quot;\&quot;vendor/bin/phpcs\&quot; --config-set installed_paths vendor/wimg/php-compatibility&quot;,
+      &quot;post-update-cmd&quot; : &quot;\&quot;vendor/bin/phpcs\&quot; --config-set installed_paths vendor/wimg/php-compatibility&quot;
+  }
+</code></pre>
+</li>
+<li><p>Alternatively - and <strong><em>strongly recommended</em></strong> if you use more than one external PHP CodeSniffer standard - you can use any of the following Composer plugins to handle this for you.</p>
+<p> Just add the Composer plugin you prefer to the <code>require-dev</code> section of your <code>composer.json</code> file.</p>
+<ul>
+<li><a href="https://github.com/DealerDirect/phpcodesniffer-composer-installer">DealerDirect/phpcodesniffer-composer-installer</a>:&quot;^0.4.3&quot;</li>
+<li><a href="https://github.com/higidi/composer-phpcodesniffer-standards-plugin">higidi/composer-phpcodesniffer-standards-plugin</a></li>
+<li><a href="https://github.com/SimplyAdmire/ComposerPlugins">SimplyAdmire/ComposerPlugins</a>. This plugin <em>might</em> still work, but appears to be abandoned.</li>
+</ul>
+</li>
+<li>As a last alternative in case you use a custom ruleset, <em>and only if you use PHP CodeSniffer version 2.6.0 or higher</em>, you can tell PHP CodeSniffer the path to the PHPCompatibility standard by adding the following snippet to your custom ruleset:<pre><code class="lang-xml">  &lt;config name=&quot;installed_paths&quot; value=&quot;vendor/wimg/php-compatibility&quot; /&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+<li>Run <code>composer update --lock</code> to install both PHP CodeSniffer, the PHPCompatibility coding standard and - optionally - the Composer plugin.</li>
+<li>Verify that the PHPCompatibility standard is registered correctly by running <code>./vendor/bin/phpcs -i</code> on the command line. PHPCompatibility should be listed as one of the available standards.</li>
+<li>Now you can use the following command to inspect your code:<pre><code class="lang-bash">  ./vendor/bin/phpcs -p . --standard=PHPCompatibility
+</code></pre>
+</li>
+</ul>
+<h2 id="installation-via-a-git-check-out-to-an-arbitrary-directory-method-2-">Installation via a git check-out to an arbitrary directory (method 2)</h2>
+<ul>
+<li><p>Install <a href="https://github.com/squizlabs/PHP_CodeSniffer">PHP CodeSniffer</a> via <a href="https://github.com/squizlabs/PHP_CodeSniffer#installation">your preferred method</a>.</p>
+<p>  PHP CodeSniffer offers a variety of installation methods to suit your work-flow: Composer, <a href="http://pear.php.net/PHP_CodeSniffer">PEAR</a>, a Phar file, zipped/tarred release archives or checking the repository out using Git.</p>
+<p>  <strong>Pro-tip:</strong> Register the path to PHPCS in your system <code>$PATH</code> environment variable to make the <code>phpcs</code> command available from anywhere in your file system.</p>
+</li>
+<li><p>Download the <a href="https://github.com/wimg/PHPCompatibility/releases">latest PHPCompatibility release</a> and unzip/untar it into an arbitrary directory.</p>
+<p>  You can also choose to clone the repository using git to easily update your install regularly.</p>
+</li>
+<li><p>Add the path to the directory in which you placed your copy of the PHPCompatibility repo to the PHP CodeSniffer configuration using the below command from the command line:</p>
+<pre><code class="lang-bash"> phpcs --config-set installed_paths /path/to/PHPCompatibility
+</code></pre>
+<p> I.e. if you placed the <code>PHPCompatibility</code> repository in the <code>/my/custom/standards/PHPCompatibility</code> directory, you will need to add that directory to the PHP CodeSniffer <a href="https://github.com/squizlabs/PHP_CodeSniffer/wiki/Configuration-Options#setting-the-installed-standard-paths"><code>installed_paths</code> configuration variable</a>.</p>
+<p> <strong>Warning</strong>: :warning: The <code>installed_paths</code> command overwrites any previously set <code>installed_paths</code>. If you have previously set <code>installed_paths</code> for other external standards, run <code>phpcs --config-show</code> first and then run the <code>installed_paths</code> command with all the paths you need separated by comma&#39;s, i.e.:</p>
+<pre><code class="lang-bash"> phpcs --config-set installed_paths /path/1,/path/2,/path/3
+</code></pre>
+<p> <strong>Pro-tip:</strong> Alternatively, in case you use a custom ruleset <em>and only if you use PHP CodeSniffer version 2.6.0 or higher</em>, you can tell PHP CodeSniffer the path to the PHPCompatibility standard(s) by adding the following snippet to your custom ruleset:</p>
+<pre><code class="lang-xml"> &lt;config name=&quot;installed_paths&quot; value=&quot;/path/to/PHPCompatibility&quot; /&gt;
+</code></pre>
+</li>
+<li>Verify that the PHPCompatibility standard is registered correctly by running <code>phpcs -i</code> on the command line. PHPCompatibility should be listed as one of the available standards.</li>
+<li>Now you can use the following command to inspect your code:<pre><code class="lang-bash">  phpcs -p . --standard=PHPCompatibility
+</code></pre>
+</li>
+</ul>
+<h2 id="sniffing-your-code-for-compatibility-with-specific-php-version-s-">Sniffing your code for compatibility with specific PHP version(s)</h2>
+<ul>
+<li>Run the coding standard from the command-line with <code>phpcs -p . --standard=PHPCompatibility</code>.</li>
+<li>By default, you will only receive notifications about deprecated and/or removed PHP features.</li>
+<li>To get the most out of the PHPCompatibility standard, you should specify a <code>testVersion</code> to check against. That will enable the checks for both deprecated/removed PHP features as well as the detection of code using new PHP features.<ul>
+<li>You can run the checks for just one specific PHP version by adding <code>--runtime-set testVersion 5.5</code> to your command line command.</li>
+<li>You can also specify a range of PHP versions that your code needs to support. In this situation, compatibility issues that affect any of the PHP versions in that range will be reported: <code>--runtime-set testVersion 5.3-5.5</code>.</li>
+<li>As of PHPCompatibility 7.1.3, you can omit one part of the range if you want to support everything above or below a particular version, i.e. use <code>--runtime-set testVersion 7.0-</code> to run all the checks for PHP 7.0 and above.</li>
+</ul>
+</li>
+<li>By default the report will be sent to the console, if you want to save the report to a file, add the following to the command line command: <code>--report-full=path/to/report-file</code>.
+  For more information and other reporting options, check the <a href="https://github.com/squizlabs/PHP_CodeSniffer/wiki/Reporting">PHP CodeSniffer wiki</a>.</li>
+</ul>
+<p>More information can be found on Wim Godden&#39;s <a href="http://techblog.wimgodden.be/tag/codesniffer">blog</a>.</p>
+<h2 id="using-a-custom-ruleset">Using a custom ruleset</h2>
+<p>Like with any PHP CodeSniffer standard, you can add PHPCompatibility to a custom PHP CodeSniffer ruleset.</p>
+<pre><code class="lang-xml">&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;ruleset name=&quot;Custom ruleset&quot;&gt;
+    &lt;description&gt;My rules for PHP CodeSniffer&lt;/description&gt;
+
+    &lt;!-- Run against the PHPCompatibility ruleset --&gt;
+    &lt;rule ref=&quot;PHPCompatibility&quot;/&gt;
+
+    &lt;!-- Run against a second ruleset --&gt;
+    &lt;rule ref=&quot;PSR2&quot;/&gt;
+
+&lt;/ruleset&gt;
+</code></pre>
+<p>You can also set the <code>testVersion</code> from within the ruleset:</p>
+<pre><code class="lang-xml">    &lt;!-- Check for cross-version support for PHP 5.6 and higher. --&gt;
+    &lt;config name=&quot;testVersion&quot; value=&quot;5.6-&quot;/&gt;
+</code></pre>
+<p>Other advanced options, such as changing the message type or severity of select sniffs, as described in the <a href="https://github.com/squizlabs/PHP_CodeSniffer/wiki/Annotated-ruleset.xml">PHPCS Annotated ruleset</a> wiki page are, of course, also supported.</p>
+<h4 id="phpcompatibility-specific-options">PHPCompatibility specific options</h4>
+<p>At this moment, there is one sniff which has a property which can be set via the ruleset. More custom properties may become available in the future.</p>
+<p>The <code>PHPCompatibility.PHP.RemovedExtensions</code> sniff checks for removed extensions based on the function prefix used for these extensions.
+This might clash with userland functions using the same function prefix.</p>
+<p>To whitelist userland functions, you can pass a comma-delimited list of function names to the sniff.</p>
+<pre><code class="lang-xml">    &lt;!-- Whitelist the mysql_to_rfc3339() and mysql_another_function() functions. --&gt;
+    &lt;rule ref=&quot;PHPCompatibility.PHP.RemovedExtensions&quot;&gt;
+        &lt;properties&gt;
+            &lt;property name=&quot;functionWhitelist&quot; type=&quot;array&quot; value=&quot;mysql_to_rfc3339,mysql_another_function&quot;/&gt;
+        &lt;/properties&gt;
+    &lt;/rule&gt;
+</code></pre>
+<p>This property was added in PHPCompatibility version 7.0.1.
+As of PHPCompatibility version 8.0.0, this custom property is only supported in combination with PHP CodeSniffer &gt; 2.6.0 due to an upstream bug (which was fixed in PHPCS 2.6.0).</p>
+<h2 id="license">License</h2>
+<p>This code is released under the GNU Lesser General Public License (LGPL). For more information, visit <a href="http://www.gnu.org/copyleft/lesser.html">http://www.gnu.org/copyleft/lesser.html</a></p>
+
+      </body>
+    </html>

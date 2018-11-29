@@ -1,0 +1,121 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>CHANGELOG.md</title>
+      </head>
+      <body>
+        <h1 id="changelog">CHANGELOG</h1>
+<h2 id="1-4-2-2017-03-20">1.4.2 - 2017-03-20</h2>
+<ul>
+<li>Reverted BC break to <code>Uri::resolve</code> and <code>Uri::removeDotSegments</code> by removing 
+calls to <code>trigger_error</code> when deprecated methods are invoked.</li>
+</ul>
+<h2 id="1-4-1-2017-02-27">1.4.1 - 2017-02-27</h2>
+<ul>
+<li>Reverted BC break by reintroducing behavior to automagically fix a URI with a
+relative path and an authority by adding a leading slash to the path. It&#39;s only
+deprecated now.</li>
+<li>Added triggering of silenced deprecation warnings.</li>
+</ul>
+<h2 id="1-4-0-2017-02-21">1.4.0 - 2017-02-21</h2>
+<ul>
+<li>Fix <code>Stream::read</code> when length parameter &lt;= 0.</li>
+<li><code>copy_to_stream</code> reads bytes in chunks instead of <code>maxLen</code> into memory.</li>
+<li>Fix <code>ServerRequest::getUriFromGlobals</code> when <code>Host</code> header contains port.</li>
+<li>Ensure <code>ServerRequest::getUriFromGlobals</code> returns a URI in absolute form.</li>
+<li>Allow <code>parse_response</code> to parse a response without delimiting space and reason.</li>
+<li>Ensure each URI modification results in a valid URI according to PSR-7 discussions.
+Invalid modifications will throw an exception instead of returning a wrong URI or
+doing some magic.<ul>
+<li><code>(new Uri)-&gt;withPath(&#39;foo&#39;)-&gt;withHost(&#39;example.com&#39;)</code> will throw an exception
+because the path of a URI with an authority must start with a slash &quot;/&quot; or be empty</li>
+<li><code>(new Uri())-&gt;withScheme(&#39;http&#39;)</code> will return <code>&#39;http://localhost&#39;</code></li>
+</ul>
+</li>
+<li>Fix compatibility of URIs with <code>file</code> scheme and empty host.</li>
+<li>Added common URI utility methods based on RFC 3986 (see documentation in the readme):<ul>
+<li><code>Uri::isDefaultPort</code></li>
+<li><code>Uri::isAbsolute</code></li>
+<li><code>Uri::isNetworkPathReference</code></li>
+<li><code>Uri::isAbsolutePathReference</code></li>
+<li><code>Uri::isRelativePathReference</code></li>
+<li><code>Uri::isSameDocumentReference</code></li>
+<li><code>Uri::composeComponents</code></li>
+<li><code>UriNormalizer::normalize</code></li>
+<li><code>UriNormalizer::isEquivalent</code></li>
+<li><code>UriResolver::relativize</code></li>
+</ul>
+</li>
+<li>Deprecated <code>Uri::resolve</code> in favor of <code>UriResolver::resolve</code></li>
+<li>Deprecated <code>Uri::removeDotSegments</code> in favor of <code>UriResolver::removeDotSegments</code></li>
+</ul>
+<h2 id="1-3-1-2016-06-25">1.3.1 - 2016-06-25</h2>
+<ul>
+<li>Fix <code>Uri::__toString</code> for network path references, e.g. <code>//example.org</code>.</li>
+<li>Fix missing lowercase normalization for host.</li>
+<li>Fix handling of URI components in case they are <code>&#39;0&#39;</code> in a lot of places,
+e.g. as a user info password.</li>
+<li>Fix <code>Uri::withAddedHeader</code> to correctly merge headers with different case.</li>
+<li>Fix trimming of header values in <code>Uri::withAddedHeader</code>. Header values may
+be surrounded by whitespace which should be ignored according to RFC 7230
+Section 3.2.4. This does not apply to header names.</li>
+<li>Fix <code>Uri::withAddedHeader</code> with an array of header values.</li>
+<li>Fix <code>Uri::resolve</code> when base path has no slash and handling of fragment.</li>
+<li>Fix handling of encoding in <code>Uri::with(out)QueryValue</code> so one can pass the
+key/value both in encoded as well as decoded form to those methods. This is
+consistent with withPath, withQuery etc.</li>
+<li>Fix <code>ServerRequest::withoutAttribute</code> when attribute value is null.</li>
+</ul>
+<h2 id="1-3-0-2016-04-13">1.3.0 - 2016-04-13</h2>
+<ul>
+<li>Added remaining interfaces needed for full PSR7 compatibility
+(ServerRequestInterface, UploadedFileInterface, etc.).</li>
+<li>Added support for stream_for from scalars.</li>
+<li>Can now extend Uri.</li>
+<li>Fixed a bug in validating request methods by making it more permissive.</li>
+</ul>
+<h2 id="1-2-3-2016-02-18">1.2.3 - 2016-02-18</h2>
+<ul>
+<li>Fixed support in <code>GuzzleHttp\Psr7\CachingStream</code> for seeking forward on remote
+streams, which can sometimes return fewer bytes than requested with <code>fread</code>.</li>
+<li>Fixed handling of gzipped responses with FNAME headers.</li>
+</ul>
+<h2 id="1-2-2-2016-01-22">1.2.2 - 2016-01-22</h2>
+<ul>
+<li>Added support for URIs without any authority.</li>
+<li>Added support for HTTP 451 &#39;Unavailable For Legal Reasons.&#39;</li>
+<li>Added support for using &#39;0&#39; as a filename.</li>
+<li>Added support for including non-standard ports in Host headers.</li>
+</ul>
+<h2 id="1-2-1-2015-11-02">1.2.1 - 2015-11-02</h2>
+<ul>
+<li>Now supporting negative offsets when seeking to SEEK_END.</li>
+</ul>
+<h2 id="1-2-0-2015-08-15">1.2.0 - 2015-08-15</h2>
+<ul>
+<li>Body as <code>&quot;0&quot;</code> is now properly added to a response.</li>
+<li>Now allowing forward seeking in CachingStream.</li>
+<li>Now properly parsing HTTP requests that contain proxy targets in
+<code>parse_request</code>.</li>
+<li>functions.php is now conditionally required.</li>
+<li>user-info is no longer dropped when resolving URIs.</li>
+</ul>
+<h2 id="1-1-0-2015-06-24">1.1.0 - 2015-06-24</h2>
+<ul>
+<li>URIs can now be relative.</li>
+<li><code>multipart/form-data</code> headers are now overridden case-insensitively.</li>
+<li>URI paths no longer encode the following characters because they are allowed
+in URIs: &quot;(&quot;, &quot;)&quot;, &quot;*&quot;, &quot;!&quot;, &quot;&#39;&quot;</li>
+<li>A port is no longer added to a URI when the scheme is missing and no port is
+present.</li>
+</ul>
+<h2 id="1-0-0-2015-05-19">1.0.0 - 2015-05-19</h2>
+<p>Initial release.</p>
+<p>Currently unsupported:</p>
+<ul>
+<li><code>Psr\Http\Message\ServerRequestInterface</code></li>
+<li><code>Psr\Http\Message\UploadedFileInterface</code></li>
+</ul>
+
+      </body>
+    </html>
